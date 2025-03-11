@@ -1,0 +1,20 @@
+<div class="background p-4">
+  <section>
+    <h2 class="justify-content-center">
+      {{title()}}
+    </h2>
+
+    <p-progressBar [value]="statusBarPorcent" />
+{{this.statusBarPorcent}}
+    @for (item of list(); track item) {
+      <app-to-do
+        (updateList)="updateStatusBar()"
+        [label]="item.label"
+        [status]="item.status"/>
+      } @empty {
+      <li>There are no items.</li>
+      }
+
+  </section>
+  
+</div>

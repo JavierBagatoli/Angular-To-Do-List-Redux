@@ -1,0 +1,26 @@
+<main class="main">
+  <app-listo-to-do
+    [title]="'Casa'"
+    [list]="list1"/>
+  <div>
+    <section>
+      @for (item of list1; track item) {
+        <app-to-do
+        [label]="item.label"/>
+        } @empty {
+        <li>There are no items.</li>
+        }
+
+      
+    </section>
+    <section>
+      <div class="card flex justify-content-center">
+        <p-button label="Check"></p-button>
+      </div>
+    </section>
+  </div>
+  
+
+  
+</main>
+<router-outlet />

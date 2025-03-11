@@ -1,0 +1,7 @@
+<div class="flex flex-row gap-2">
+  <p-checkbox 
+    (onChange)="changeStatus()"
+    [(ngModel)]="checked"
+    [binary]="true" />
+  <p>{{label()}}</p>
+</div>
