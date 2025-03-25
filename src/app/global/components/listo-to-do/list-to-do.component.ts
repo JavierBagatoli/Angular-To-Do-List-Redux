@@ -1,38 +1,87 @@
-import { ChangeDetectionStrategy, Component, input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, input, OnInit, signal } from '@angular/core';
 import { ToDoComponent } from "../to-do/to-do.component";
 import { ProgressBarModule } from 'primeng/progressbar';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ButtonModule } from 'primeng/button';
+import { TaskItemsState } from '../../../core/store/task.store';
+import { Store } from '@ngrx/store';
+import { taskActions } from '../../../core/action/task.action';
+import { selectTaskItems } from '../../../core/selector/task.selector';
 
 @Component({
   selector: 'app-listo-to-do',
   standalone: true,
-  imports: [ToDoComponent, ProgressBarModule],
+  imports: [
+    ToDoComponent,
+    ProgressBarModule,
+    ReactiveFormsModule,
+    FormsModule,
+    ButtonModule,
+  ],
   templateUrl: './list-to-do.component.html',
   styleUrl: './list-to-do.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
-export class ListoToDoComponent{
+export class ListoToDoComponent implements OnInit{
+  private readonly store = inject(Store<{task : TaskItemsState}>)
+  private readonly listTask = toSignal(this.store.select(selectTaskItems) || [])
+  getItems : any = ""
+
   title = input<string>();
-  list  = input<ItemList[]>([]);
+  item  : string | null = null
   statusBarPorcent: number = 0;
+
+  ngOnInit(): void {
+    this.store.select(selectTaskItems).subscribe(
+      (val) => {
+        console.table(val)
+        this.getItems = val;
+      }
+    )
+  }
 
   updateStatusBar(): void {
     let temporalValue = 0;
     
-    this.list()!.forEach(
+    /*this.list()!.forEach(
       (item: ItemList) => {
         if(item.status){
           temporalValue++
         }
       })
+  */
+    this.statusBarPorcent = (temporalValue / this.listTask().length)*100
+  }
 
-    this.statusBarPorcent = (temporalValue / this.list().length)*100
+  addTask(){
+    /*
+    if(this.item !== null){
+      this.list().push(
+        {
+          id: this.list().length,
+          label:this.item,
+          status: false});
+      this.item = null;
+      this.saveData();  
+      }
+    */
+    this.store.dispatch(taskActions.addTask({task: {
+      id: this.listTask()?.length || 0,
+      label: this.item!,
+      status: false,
+    }}))
+  }
+
+  saveData(){
+    localStorage.setItem("save0", JSON.stringify(this.listTask()))
   }
 }
 
 
 
 export interface ItemList {
+  id: number,
   label: string,
   status: boolean
 }

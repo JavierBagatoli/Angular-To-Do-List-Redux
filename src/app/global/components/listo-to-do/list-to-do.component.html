@@ -3,18 +3,20 @@
     <h2 class="justify-content-center">
       {{title()}}
     </h2>
-
     <p-progressBar [value]="statusBarPorcent" />
-{{this.statusBarPorcent}}
+    {{this.statusBarPorcent}}
+    
+    <input type="text" pInputText [(ngModel)]="item" />
+    <p-button
+      (onClick)="addTask()"
+      label="Agregar"></p-button>
     @for (item of list(); track item) {
       <app-to-do
         (updateList)="updateStatusBar()"
-        [label]="item.label"
-        [status]="item.status"/>
+        [itemTask]="item"/>
       } @empty {
       <li>There are no items.</li>
       }
 
   </section>
-  
 </div>

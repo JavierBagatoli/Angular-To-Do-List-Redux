@@ -13,11 +13,5 @@ import { ItemList, ListoToDoComponent } from "./global/components/listo-to-do/li
 })
 export class AppComponent {
   title = 'ToDoList';
-  list1 : ItemList[]= [
-    {label: 'Desayunar', status: true},
-    {label: 'Entranar', status: true},
-    {label: 'Trabajar', status: false},
-    {label: 'Estudiar', status: false},
-    {label: 'Almorzar', status: false}
-  ]
+  list1 : ItemList[]= []
 }

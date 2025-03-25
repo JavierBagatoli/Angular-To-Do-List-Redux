@@ -1,6 +1,10 @@
-import { ChangeDetectionStrategy, Component, input, OnInit, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, input, OnInit, output } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CheckboxModule } from 'primeng/checkbox';
+import { taskActions } from '../../../core/action/task.action';
+import { Store } from '@ngrx/store';
+import { TaskItemsState } from '../../../core/store/task.store';
+import { ItemList } from '../listo-to-do/list-to-do.component';
 
 @Component({
   selector: 'app-to-do',
@@ -11,16 +15,19 @@ import { CheckboxModule } from 'primeng/checkbox';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ToDoComponent implements OnInit {
-  label = input<string>()
-  status = input<boolean>()
+  private readonly store = inject(Store<{task : TaskItemsState}>)
+  
+  itemTask = input<ItemList>()
+  
   updateList = output()
   checked: boolean = false
 
   ngOnInit(){
-    this.checked = this.status() || false;
+    this.checked = this.itemTask()?.status || false;
   }
 
   changeStatus(){
+    this.store.dispatch(taskActions.updateTask({id: this.itemTask()?.id!}))
     this.updateList.emit()
   }
 }

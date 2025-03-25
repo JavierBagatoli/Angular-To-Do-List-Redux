@@ -5,8 +5,7 @@
   <div>
     <section>
       @for (item of list1; track item) {
-        <app-to-do
-        [label]="item.label"/>
+        <app-to-do/>
         } @empty {
         <li>There are no items.</li>
         }
