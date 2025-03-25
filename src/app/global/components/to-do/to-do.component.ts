@@ -4,7 +4,7 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { taskActions } from '../../../core/action/task.action';
 import { Store } from '@ngrx/store';
 import { TaskItemsState } from '../../../core/store/task.store';
-import { ItemList } from '../listo-to-do/list-to-do.component';
+import { ItemList } from '../list-to-do/list-to-do.component';
 
 @Component({
   selector: 'app-to-do',

@@ -1,16 +1,15 @@
-<div class="background p-4">
+<div class="background p-4 w-4">
   <section>
     <h2 class="justify-content-center">
       {{title()}}
     </h2>
     <p-progressBar [value]="statusBarPorcent" />
-    {{this.statusBarPorcent}}
     
     <input type="text" pInputText [(ngModel)]="item" />
     <p-button
       (onClick)="addTask()"
       label="Agregar"></p-button>
-    @for (item of list(); track item) {
+    @for (item of listTask; track item) {
       <app-to-do
         (updateList)="updateStatusBar()"
         [itemTask]="item"/>

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { ToDoComponent } from "./global/components/to-do/to-do.component";
-import { ItemList, ListoToDoComponent } from "./global/components/listo-to-do/list-to-do.component";
+import { ItemList, ListoToDoComponent } from "./global/components/list-to-do/list-to-do.component";
 
 @Component({
   selector: 'app-root',

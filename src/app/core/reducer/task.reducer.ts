@@ -18,7 +18,7 @@ export const taskReducer = createReducer(
   }}),
   on(taskActions.updateTask, (state, {id}) => {
     let list = state.listOfTasks.map(task => {
-      if(task.id !== id){
+      if(task.id === id){
         return {
           ...task,
           status: !task.status

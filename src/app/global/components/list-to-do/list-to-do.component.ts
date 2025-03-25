@@ -25,8 +25,8 @@ import { selectTaskItems } from '../../../core/selector/task.selector';
 
 export class ListoToDoComponent implements OnInit{
   private readonly store = inject(Store<{task : TaskItemsState}>)
-  private readonly listTask = toSignal(this.store.select(selectTaskItems) || [])
-  getItems : any = ""
+  listTask : ItemList[] = []
+
 
   title = input<string>();
   item  : string | null = null
@@ -35,8 +35,9 @@ export class ListoToDoComponent implements OnInit{
   ngOnInit(): void {
     this.store.select(selectTaskItems).subscribe(
       (val) => {
-        console.table(val)
-        this.getItems = val;
+        console.table(val);
+        this.listTask = val;
+        this.updateStatusBar();
       }
     )
   }
@@ -44,14 +45,14 @@ export class ListoToDoComponent implements OnInit{
   updateStatusBar(): void {
     let temporalValue = 0;
     
-    /*this.list()!.forEach(
+    this.listTask.forEach(
       (item: ItemList) => {
         if(item.status){
           temporalValue++
         }
       })
-  */
-    this.statusBarPorcent = (temporalValue / this.listTask().length)*100
+  
+    this.statusBarPorcent = (temporalValue / this.listTask.length)*100
   }
 
   addTask(){
@@ -67,14 +68,14 @@ export class ListoToDoComponent implements OnInit{
       }
     */
     this.store.dispatch(taskActions.addTask({task: {
-      id: this.listTask()?.length || 0,
+      id: this.listTask.length || 0,
       label: this.item!,
       status: false,
     }}))
   }
 
   saveData(){
-    localStorage.setItem("save0", JSON.stringify(this.listTask()))
+    localStorage.setItem("save0", JSON.stringify(this.listTask))
   }
 }
 
