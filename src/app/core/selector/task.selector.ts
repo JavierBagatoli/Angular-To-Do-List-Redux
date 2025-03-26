@@ -6,3 +6,7 @@ export const selectTaskState = createFeatureSelector<TaskItemsState>('task');
 export const selectTaskItems = createSelector(
     selectTaskState, (state) => state.listOfTasks
 )
+
+export const selectIsOpenDeleteModal = createSelector(
+    selectTaskState, (state) => state.isOpenDeleteModal
+)

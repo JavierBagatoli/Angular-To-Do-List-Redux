@@ -1,7 +1,16 @@
-<div class="flex flex-row gap-2">
-  <p-checkbox 
+<div class="flex flex-row justify-content-between gap-2">
+  <div class="flex flex-row">
+    <p-checkbox 
+    class="mr-2"
     (onChange)="changeStatus()"
     [(ngModel)]="checked"
     [binary]="true" />
-  <p>{{itemTask()?.label}}</p>
+    <p>{{itemTask()?.label}}</p>
+  </div>
+  <div class="flex flex-row mt-3">
+    <i
+      (click)="openModalDelete()"
+      class="pi pi-trash"
+      style="color: rgb(141, 52, 52)"></i>
+  </div>
 </div>

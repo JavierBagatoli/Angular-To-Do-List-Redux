@@ -2,4 +2,6 @@ import { ItemList } from "../../global/components/list-to-do/list-to-do.componen
 
 export interface TaskItemsState{
     listOfTasks: ItemList[];
+    taskIdToDelete: number | null;
+    isOpenDeleteModal: boolean;
 }

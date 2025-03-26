@@ -1,24 +1,38 @@
 <main class="main">
-  <app-listo-to-do
-    [title]="'Casa'"/>
-  <div>
-    <section>
-      @for (item of list1; track item) {
-        <app-to-do/>
-        } @empty {
-        <li>There are no items.</li>
-        }
+  <h1 class="flex flex-row justify-content-around">
+    To Do List app
+  </h1>
 
-      
-    </section>
-    <section>
-      <div class="card flex justify-content-center">
-        <p-button label="Check"></p-button>
-      </div>
-    </section>
+  <div class="flex flex-row">
+    @for (item of [{},{},{},{},{},{}]; track item) {
+      <app-listo-to-do
+      [title]="'Casa'"/>  
+    }      
   </div>
   
 
+    <p-dialog 
+      header="¿Quiere borrar la tarea?:"
+      [closable]="false"
+      [draggable]="false"
+      [(visible)]="showModalDelete"
+      [style]="{ width: '25rem' }">
+
+      <div>
+        <div class="flex flex-row gap-3">
+          <p-button
+            class="p-button-secondary flex flex-row"
+            (onClick)="closeDeleteModal()"
+            label="Cancel"
+          ></p-button>
+          <p-button
+            class="flex flex-row"
+            (onClick)="deleteTask()"
+            label="Delete"
+          ></p-button>
+        </div>
+      </div>
+  </p-dialog>
   
 </main>
 <router-outlet />

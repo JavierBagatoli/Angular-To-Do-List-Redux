@@ -1,4 +1,4 @@
-import { createAction, createActionGroup, emptyProps, props } from '@ngrx/store';
+import { createActionGroup, emptyProps, props } from '@ngrx/store';
 import { ItemList } from '../../global/components/list-to-do/list-to-do.component';
 
 export const taskActions = createActionGroup({
@@ -6,6 +6,9 @@ export const taskActions = createActionGroup({
     events: {
         'Get Task': emptyProps(),
         'Add Task': props<{task: ItemList}>(),
-        'update Task': props<{id: number}>()
+        'Update Task': props<{id: number}>(),
+        'Delete Task': emptyProps(),
+        'Open Delete Modal': props<{id: number}>(),
+        'Close Delete Modal': emptyProps(),
     },
 })

@@ -5,11 +5,12 @@ import { taskActions } from '../../../core/action/task.action';
 import { Store } from '@ngrx/store';
 import { TaskItemsState } from '../../../core/store/task.store';
 import { ItemList } from '../list-to-do/list-to-do.component';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-to-do',
   standalone: true,
-  imports: [CheckboxModule, ReactiveFormsModule, FormsModule],
+  imports: [CheckboxModule, ReactiveFormsModule, FormsModule, ButtonModule,],
   templateUrl: './to-do.component.html',
   styleUrl: './to-do.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -18,8 +19,8 @@ export class ToDoComponent implements OnInit {
   private readonly store = inject(Store<{task : TaskItemsState}>)
   
   itemTask = input<ItemList>()
+  showModalDelete : boolean = false;
   
-  updateList = output()
   checked: boolean = false
 
   ngOnInit(){
@@ -27,7 +28,10 @@ export class ToDoComponent implements OnInit {
   }
 
   changeStatus(){
-    this.store.dispatch(taskActions.updateTask({id: this.itemTask()?.id!}))
-    this.updateList.emit()
+    this.store.dispatch(taskActions.updateTask({id: this.itemTask()?.id!}));
+  }
+
+  openModalDelete(){
+    this.store.dispatch(taskActions.openDeleteModal({id: this.itemTask()?.id!}));
   }
 }

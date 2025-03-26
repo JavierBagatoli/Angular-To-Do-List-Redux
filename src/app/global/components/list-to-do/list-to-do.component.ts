@@ -29,7 +29,7 @@ export class ListoToDoComponent implements OnInit{
 
 
   title = input<string>();
-  item  : string | null = null
+  item  : string = ""
   statusBarPorcent: number = 0;
 
   ngOnInit(): void {
@@ -56,22 +56,13 @@ export class ListoToDoComponent implements OnInit{
   }
 
   addTask(){
-    /*
-    if(this.item !== null){
-      this.list().push(
-        {
-          id: this.list().length,
-          label:this.item,
-          status: false});
-      this.item = null;
-      this.saveData();  
-      }
-    */
-    this.store.dispatch(taskActions.addTask({task: {
-      id: this.listTask.length || 0,
-      label: this.item!,
-      status: false,
-    }}))
+    if(this.item?.length > 0){
+      this.store.dispatch(taskActions.addTask({task: {
+        id: this.listTask.length || 0,
+        label: this.item!,
+        status: false,
+      }}))  
+    }
   }
 
   saveData(){

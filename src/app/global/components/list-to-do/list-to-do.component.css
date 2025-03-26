@@ -2,6 +2,14 @@
   display: block;
 }
 
-.background{
-  background-color: bisque;
+.width-95{
+  width: 95%;
+}
+
+.card{
+  border-width: 1px;
+  border-color: rgb(213, 186, 171);
+  background-color: rgb(230, 222, 217);
+  border-radius: 16px;
+  border-style: solid;
 }

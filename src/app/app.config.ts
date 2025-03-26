@@ -6,6 +6,8 @@ import { provideStore, StoreModule, StoreRootModule } from '@ngrx/store';
 import { taskReducer } from './core/reducer/task.reducer';
 import { provideStoreDevtools, StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { EffectsModule, provideEffects } from '@ngrx/effects';
+import { provideAnimations } from '@angular/platform-browser/animations';
+
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -18,6 +20,7 @@ export const appConfig: ApplicationConfig = {
     provideStoreDevtools(),
     // alternative to `EffectsModule.forRoot`
     provideEffects([]),
+    provideAnimations()
     
   ],
 };
