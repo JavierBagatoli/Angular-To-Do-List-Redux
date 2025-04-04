@@ -28,7 +28,8 @@ export class ListoToDoComponent implements OnInit{
   private readonly store = inject(Store<{task : TaskItemsState}>)
   listTask : ItemList[] = []
 
-
+  editTitle: boolean = false;
+  titleInput: string = ""
   title : string = ""
   slot = input.required<number>()
   item  : string = ""
@@ -62,6 +63,15 @@ export class ListoToDoComponent implements OnInit{
         }}
       ))  
     }
+  }
+
+  saveNewTitle(){
+    this.editTitle = false;
+    this.title = this.titleInput;
+    this.store.dispatch(taskActions.updateNameList({
+      slot: this.slot(),
+      nameList: this.title}
+    ));  
   }
 
   private selectSlot(slot: number):void{

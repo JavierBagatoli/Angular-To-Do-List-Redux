@@ -1,11 +1,28 @@
 <div class="flex card p-4 width-95">
   <section>
-    <h2 class="justify-content-center">
-      {{title}}
-    </h2>
+    <div class="flex mb-3">
+      @if(title === "" || editTitle){
+        <div class="flex flex-row justify-content-between">
+          <input 
+            type="text"
+            pInputText
+            [(ngModel)]="titleInput"/>
+          <p-button
+            label="Nombrar"
+            (onClick)="saveNewTitle()"
+          />
+        </div>
+      }@else{
+        <h2 
+          (click)="editTitle = true"
+          class="justify-content-center">
+          {{title}}
+        </h2>
+      }
+    </div>
     <p-progressBar 
       [showValue]="true"
-      class="mb-3"
+      class="my-3"
       [value]="statusBarPorcent || 0" />
     
     <div class="flex my-3">

@@ -35,4 +35,7 @@ export class ToDoComponent implements OnInit {
   openModalDelete(){
     this.store.dispatch(taskActions.openDeleteModal({slot: this.slot() , id: this.itemTask()?.id!}));
   }
+  switchDaily(){
+    this.store.dispatch(taskActions.switchDailyModeTask({slot: this.slot() , id: this.itemTask()?.id!}));
+  }
 }

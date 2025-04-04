@@ -4,9 +4,10 @@ export interface TaskData{
 }
 
 export interface ItemList {
-id: number,
-label: string,
-status: boolean,
+    id: number,
+    label: string,
+    status: boolean,
+    daily?: boolean
 }
 
 export interface SlotAndID  {

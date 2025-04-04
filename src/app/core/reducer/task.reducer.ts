@@ -18,11 +18,42 @@ export const taskReducer = createReducer(
       localStorage.setItem("memory", JSON.stringify(init))
     }
 
-    const memory = JSON.parse(localStorage.getItem("memory") || "{}");
+    const memory = JSON.parse(localStorage.getItem("memory")!);
     
+    if(!localStorage.getItem("date")){
+      localStorage.setItem("date", JSON.stringify(new Date()))
+    }
+
+    const lastDay = new Date(localStorage.getItem("date")!);
+    let newMemory : TaskData[] = memory;
+    newMemory
+    console.log(lastDay.getDay(), "--", (new Date()).getDay(), ":", (lastDay.getDay() !== (new Date()).getDay()))
+    if(lastDay.getDay() !== (new Date()).getDay()){
+      newMemory = newMemory.map(
+        spaceOfMemory => {
+          let space = spaceOfMemory.listOfTasks.map(
+            task => {
+              if(task.daily){
+                return {
+                  ...task,
+                  status: false,
+                }
+              }
+              return task
+            }
+          )
+          return {
+            name: spaceOfMemory.name,
+            listOfTasks: space
+          }
+        }
+      )
+    }
+    
+    console.log(newMemory)
     return {
       ...state,
-      memory : memory,
+      memory : newMemory,
     }}),
 
   on(taskActions.addTask, (state, {slot , task}) => {
@@ -40,14 +71,41 @@ export const taskReducer = createReducer(
       memory: [...newMemory]
     };
   }),
-
+  on(taskActions.updateNameList, (state, {slot, nameList}) => {
+  let newMemory : TaskData[] = JSON.parse(JSON.stringify(state.memory));
+  newMemory[slot].name = nameList
+  
+    return {
+    ...state,
+    memory: newMemory
+  }}
+  ),
   on(taskActions.updateTask, (state, {slot, id}) => {
-    console.log("a")
     let newArray = state.memory[slot].listOfTasks.map(task => {
       if(task.id === id){
         return {
           ...task,
           status: !task.status
+        } 
+      }
+      return task
+  })
+
+  let newMemory : TaskData[] = JSON.parse(JSON.stringify(state.memory));
+  newMemory[slot].listOfTasks = newArray
+  
+    return {
+    ...state,
+    memory: newMemory
+  }}
+  ),
+
+  on(taskActions.switchDailyModeTask, (state, {slot, id}) => {
+    let newArray = state.memory[slot].listOfTasks.map(task => {
+      if(task.id === id){
+        return {
+          ...task,
+          daily: !task.daily || false
         } 
       }
       return task

@@ -1,16 +1,20 @@
 <div class="flex flex-row justify-content-between gap-2">
   <div class="flex flex-row">
     <p-checkbox 
-    class="mr-2"
-    (onChange)="changeStatus()"
-    [(ngModel)]="checked"
-    [binary]="true" />
-    <p>{{itemTask()?.label}}</p>
+      class="mr-2"
+      (onChange)="changeStatus()"
+      [(ngModel)]="checked"
+      [binary]="true" />
+    <p>{{itemTask()?.label}} {{itemTask()?.daily ? "⏳": ""}}</p>
   </div>
-  <div class="flex flex-row mt-3">
+  <div class="flex flex-row mt-3 gap-3">
     <i
       (click)="openModalDelete()"
       class="pi pi-trash"
+      style="color: rgb(141, 52, 52)"></i>
+    <i
+      (click)="switchDaily()"
+      class="pi pi-calendar-clock"
       style="color: rgb(141, 52, 52)"></i>
   </div>
 </div>
