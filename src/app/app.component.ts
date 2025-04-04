@@ -4,7 +4,7 @@ import { ButtonModule } from 'primeng/button';
 import { ListoToDoComponent } from "./global/components/list-to-do/list-to-do.component";
 import { Store } from '@ngrx/store';
 import { TaskItemsState } from './core/store/task.store';
-import { selectIsOpenDeleteModal } from './core/selector/task.selector';
+import { selectIsOpenDeleteModal, selectMemoryTask } from './core/selector/task.selector';
 import { taskActions } from './core/action/task.action';
 import { DialogModule } from 'primeng/dialog';
 import { CommonModule } from '@angular/common';
@@ -42,6 +42,10 @@ export class AppComponent implements OnInit{
         this.showModalDelete = val || false;
       }
     );
+
+    this.store.select(selectMemoryTask).subscribe(
+      val => localStorage.setItem("memory", JSON.stringify(val))
+    )
   }
 
   deleteTask(){

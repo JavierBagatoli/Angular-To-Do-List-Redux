@@ -19,7 +19,7 @@ export class ToDoComponent implements OnInit {
   private readonly store = inject(Store<{task : TaskItemsState}>)
 
   itemTask = input<ItemList>()
-  nameSlot = input.required<string>()
+  slot = input.required<number>()
   showModalDelete : boolean = false;
   
   checked: boolean = false
@@ -29,10 +29,10 @@ export class ToDoComponent implements OnInit {
   }
 
   changeStatus(){
-    this.store.dispatch(taskActions.updateTask({slot: 0, id: this.itemTask()?.id!}));
+    this.store.dispatch(taskActions.updateTask({slot: this.slot(), id: this.itemTask()?.id!}));
   }
 
   openModalDelete(){
-    this.store.dispatch(taskActions.openDeleteModal({slot: 0, id: this.itemTask()?.id!}));
+    this.store.dispatch(taskActions.openDeleteModal({slot: this.slot() , id: this.itemTask()?.id!}));
   }
 }

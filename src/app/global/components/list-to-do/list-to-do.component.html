@@ -22,7 +22,7 @@
     </div>
     @for (item of listTask; track item) {
       <app-to-do
-        [nameSlot]="nameSlot()" 
+        [slot]="this.slot()" 
         style="display: block;"
         (updateList)="updateStatusBar()"
         [itemTask]="item"/>

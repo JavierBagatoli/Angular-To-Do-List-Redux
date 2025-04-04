@@ -4,10 +4,10 @@ import { ProgressBarModule } from 'primeng/progressbar';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { TaskItemsState } from '../../../core/store/task.store';
-import { Store } from '@ngrx/store';
+import { MemoizedSelector, Store } from '@ngrx/store';
 import { taskActions } from '../../../core/action/task.action';
 import { ItemList } from '../../../core/interface/task.interface';
-import { selectTaskItems0 } from '../../../core/selector/task.selector';
+import { selectTaskItems0, selectTaskItems1, selectTaskItems10, selectTaskItems2, selectTaskItems3, selectTaskItems4, selectTaskItems5, selectTaskItems6, selectTaskItems7, selectTaskItems8, selectTaskItems9 } from '../../../core/selector/task.selector';
 
 @Component({
   selector: 'app-listo-to-do',
@@ -35,13 +35,7 @@ export class ListoToDoComponent implements OnInit{
   statusBarPorcent: number = 0;
 
   ngOnInit(): void {
-    this.store.select(selectTaskItems0).subscribe(
-      (val) => {
-        this.title = val.name;
-        this.listTask = val.listOfTasks;
-        this.updateStatusBar();
-      }
-    )
+    this.selectSlot(this.slot());
   }
 
   updateStatusBar(): void {
@@ -55,13 +49,12 @@ export class ListoToDoComponent implements OnInit{
       })
   
     this.statusBarPorcent = Math.round( (temporalValue / this.listTask.length)*100) || 0
-    console.log(this.statusBarPorcent)
   }
 
-  addTask(){
+  addTask():void{
     if(this.item?.length > 0){
       this.store.dispatch(taskActions.addTask({
-        slot: 0,
+        slot: this.slot(),
         task: {
           id: this.listTask.length || 0,
           label: this.item!,
@@ -71,8 +64,95 @@ export class ListoToDoComponent implements OnInit{
     }
   }
 
-  saveData(){
-    localStorage.setItem(`slot${this.slot()}`, JSON.stringify(this.listTask))
+  private selectSlot(slot: number):void{
+    let selector = null; 
+    switch (slot) {
+      case 0:
+        this.store.select(selectTaskItems0).subscribe(
+          (val) => {
+            this.setData(val)
+          }
+        )
+        break;
+        case 1:
+          this.store.select(selectTaskItems1).subscribe(
+            (val) => {
+              this.setData(val)
+            }
+          )
+          break;
+        case 2:
+          this.store.select(selectTaskItems2).subscribe(
+            (val) => {
+              this.setData(val)
+            }
+          )
+          break;
+        case 3:
+          this.store.select(selectTaskItems3).subscribe(
+            (val) => {
+              this.setData(val)
+            }
+          )
+          break;
+        case 4:
+          this.store.select(selectTaskItems4).subscribe(
+            (val) => {
+              this.setData(val)
+            }
+          )
+          break;
+        case 5:
+          this.store.select(selectTaskItems5).subscribe(
+            (val) => {
+              this.setData(val)
+            }
+          )
+          break;
+        case 6:
+          this.store.select(selectTaskItems6).subscribe(
+            (val) => {
+              this.setData(val)
+            }
+          )
+          break;
+        case 7:
+          this.store.select(selectTaskItems7).subscribe(
+            (val) => {
+              this.setData(val)
+            }
+          )
+          break;
+        case 8:
+          this.store.select(selectTaskItems8).subscribe(
+            (val) => {
+              this.setData(val)
+            }
+          )
+          break;
+        case 9:
+          this.store.select(selectTaskItems9).subscribe(
+            (val) => {
+              this.setData(val)
+            }
+          )
+          break;
+        case 10:
+          this.store.select(selectTaskItems10).subscribe(
+            (val) => {
+              this.setData(val)
+            }
+          )
+          break;
+      default:
+        break;
+    }
+  }
+
+  private setData(val: any):void{
+    this.title = val.name || "";
+    this.listTask = val.listOfTasks;
+    this.updateStatusBar();
   }
 }
 

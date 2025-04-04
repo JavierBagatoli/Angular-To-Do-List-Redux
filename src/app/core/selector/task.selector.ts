@@ -40,3 +40,7 @@ export const selectTaskItems10 = createSelector(
 export const selectIsOpenDeleteModal = createSelector(
     selectTaskState, (state) => state.isOpenDeleteModal
 )
+
+export const selectMemoryTask = createSelector(
+    selectTaskState, (state) => state.memory
+)
