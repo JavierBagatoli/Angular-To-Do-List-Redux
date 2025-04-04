@@ -6,7 +6,8 @@ import { ButtonModule } from 'primeng/button';
 import { TaskItemsState } from '../../../core/store/task.store';
 import { Store } from '@ngrx/store';
 import { taskActions } from '../../../core/action/task.action';
-import { selectTaskItems } from '../../../core/selector/task.selector';
+import { ItemList } from '../../../core/interface/task.interface';
+import { selectTaskItems0 } from '../../../core/selector/task.selector';
 
 @Component({
   selector: 'app-listo-to-do',
@@ -28,15 +29,16 @@ export class ListoToDoComponent implements OnInit{
   listTask : ItemList[] = []
 
 
-  title = input<string>();
+  title : string = ""
+  slot = input.required<number>()
   item  : string = ""
   statusBarPorcent: number = 0;
 
   ngOnInit(): void {
-    this.store.select(selectTaskItems).subscribe(
+    this.store.select(selectTaskItems0).subscribe(
       (val) => {
-        console.table(val);
-        this.listTask = val;
+        this.title = val.name;
+        this.listTask = val.listOfTasks;
         this.updateStatusBar();
       }
     )
@@ -52,28 +54,27 @@ export class ListoToDoComponent implements OnInit{
         }
       })
   
-    this.statusBarPorcent = (temporalValue / this.listTask.length)*100
+    this.statusBarPorcent = Math.round( (temporalValue / this.listTask.length)*100) || 0
+    console.log(this.statusBarPorcent)
   }
 
   addTask(){
     if(this.item?.length > 0){
-      this.store.dispatch(taskActions.addTask({task: {
-        id: this.listTask.length || 0,
-        label: this.item!,
-        status: false,
-      }}))  
+      this.store.dispatch(taskActions.addTask({
+        slot: 0,
+        task: {
+          id: this.listTask.length || 0,
+          label: this.item!,
+          status: false,
+        }}
+      ))  
     }
   }
 
   saveData(){
-    localStorage.setItem("save0", JSON.stringify(this.listTask))
+    localStorage.setItem(`slot${this.slot()}`, JSON.stringify(this.listTask))
   }
 }
 
 
 
-export interface ItemList {
-  id: number,
-  label: string,
-  status: boolean
-}

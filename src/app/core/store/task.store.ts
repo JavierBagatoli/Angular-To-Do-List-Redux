@@ -1,7 +1,7 @@
-import { ItemList } from "../../global/components/list-to-do/list-to-do.component";
+import { SlotAndID, TaskData } from "../interface/task.interface";
 
 export interface TaskItemsState{
-    listOfTasks: ItemList[];
-    taskIdToDelete: number | null;
+    memory: TaskData[]
+    taskIdToDelete: SlotAndID | null;
     isOpenDeleteModal: boolean;
 }

@@ -1,9 +1,10 @@
 import { createReducer, on } from '@ngrx/store';
 import { TaskItemsState } from '../store/task.store';
 import { taskActions } from '../action/task.action';
+import { ItemList, TaskData } from '../interface/task.interface';
 
 export const initialState: TaskItemsState = {
-  listOfTasks: [],
+  memory: [],
   taskIdToDelete: null,
   isOpenDeleteModal: false,
 };
@@ -11,20 +12,37 @@ export const initialState: TaskItemsState = {
 export const taskReducer = createReducer(
   initialState,
   on(taskActions.getTask, (state) => {
-    const slot1 = JSON.parse(localStorage.getItem("slot1") || "")
+    if(!localStorage.getItem("memory")){
+      localStorage.setItem("memory", "")
+    }
+
+    const memory = JSON.parse(localStorage.getItem("memory") || "{}");
+    
     return {
       ...state,
-      listOfTasks : slot1,
+      memory : memory,
     }}),
 
-  on(taskActions.addTask, (state, {task}) => {
-    return {
-    ...state,
-    listOfTasks: [...state.listOfTasks, task]
-  }}),
+  on(taskActions.addTask, (state, {slot , task}) => {
 
-  on(taskActions.updateTask, (state, {id}) => {
-    let list = state.listOfTasks.map(task => {
+    let newArray : ItemList[] = state.memory[slot].listOfTasks
+    newArray.push(task)
+
+    console.log(newArray, "Este es el nuevo vector de posicion")
+
+    let newMemory : TaskData[] = state.memory
+    console.log(newMemory, "Este esta es la nueva memoria")
+
+    newMemory[slot].listOfTasks = newArray
+    return {
+      ...state,
+      memory: newMemory
+    }
+  }),
+
+  on(taskActions.updateTask, (state, {slot, id}) => {
+
+    let newArray = state.memory[slot].listOfTasks.map(task => {
       if(task.id === id){
         return {
           ...task,
@@ -33,27 +51,35 @@ export const taskReducer = createReducer(
       }
       return task
   })
+
+  let newMemory : TaskData[] = state.memory
+  newMemory[slot].listOfTasks = newArray
   
     return {
     ...state,
-    listOfTasks: list
+    memory: newMemory
   }}
   ),
 
   on(taskActions.deleteTask, (state) => {
-    let list = state.listOfTasks.filter(task => task.id !== state.taskIdToDelete)
-  
+    const idItem :number = state.taskIdToDelete!.id;
+    const slotItem :number = state.taskIdToDelete!.slot;
+
+    let newArray = state.memory[idItem].listOfTasks.filter(task => task.id !== slotItem)
+    let newMemory : TaskData[] = state.memory
+    newMemory[slotItem].listOfTasks = newArray;
+
     return {
     ...state,
-    listOfTasks: list,
+    memory: newMemory,
     taskIdToDelete: null,
     isOpenDeleteModal: false,
   }}),
 
-  on(taskActions.openDeleteModal, (state, {id}) => {
+  on(taskActions.openDeleteModal, (state, {slot, id}) => {
     return {
     ...state,
-    taskIdToDelete: id,
+    taskIdToDelete: {slot: slot, id: id},
     isOpenDeleteModal: true
   }}),
 

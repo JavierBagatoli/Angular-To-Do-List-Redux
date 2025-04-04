@@ -4,10 +4,12 @@
   </h1>
 
   <div class="flex flex-row">
-    @for (item of [{},{},{},{},{},{}]; track item) {
+    @for (item of [0,1,2,3,4,5,6,7,8,9,10]; track item) {
       <app-listo-to-do
-      [title]="'Casa'"/>  
-    }      
+        [slot]="item"
+        [title]="'Casa'"
+      />  
+    }   
   </div>
   
 

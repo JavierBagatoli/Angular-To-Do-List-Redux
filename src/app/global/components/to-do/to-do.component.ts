@@ -4,8 +4,8 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { taskActions } from '../../../core/action/task.action';
 import { Store } from '@ngrx/store';
 import { TaskItemsState } from '../../../core/store/task.store';
-import { ItemList } from '../list-to-do/list-to-do.component';
 import { ButtonModule } from 'primeng/button';
+import { ItemList } from '../../../core/interface/task.interface';
 
 @Component({
   selector: 'app-to-do',
@@ -17,8 +17,9 @@ import { ButtonModule } from 'primeng/button';
 })
 export class ToDoComponent implements OnInit {
   private readonly store = inject(Store<{task : TaskItemsState}>)
-  
+
   itemTask = input<ItemList>()
+  nameSlot = input.required<string>()
   showModalDelete : boolean = false;
   
   checked: boolean = false
@@ -28,10 +29,10 @@ export class ToDoComponent implements OnInit {
   }
 
   changeStatus(){
-    this.store.dispatch(taskActions.updateTask({id: this.itemTask()?.id!}));
+    this.store.dispatch(taskActions.updateTask({slot: 0, id: this.itemTask()?.id!}));
   }
 
   openModalDelete(){
-    this.store.dispatch(taskActions.openDeleteModal({id: this.itemTask()?.id!}));
+    this.store.dispatch(taskActions.openDeleteModal({slot: 0, id: this.itemTask()?.id!}));
   }
 }
