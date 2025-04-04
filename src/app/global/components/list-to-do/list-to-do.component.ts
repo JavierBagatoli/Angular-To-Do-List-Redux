@@ -4,7 +4,7 @@ import { ProgressBarModule } from 'primeng/progressbar';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { TaskItemsState } from '../../../core/store/task.store';
-import { MemoizedSelector, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { taskActions } from '../../../core/action/task.action';
 import { ItemList } from '../../../core/interface/task.interface';
 import { selectTaskItems0, selectTaskItems1, selectTaskItems10, selectTaskItems2, selectTaskItems3, selectTaskItems4, selectTaskItems5, selectTaskItems6, selectTaskItems7, selectTaskItems8, selectTaskItems9 } from '../../../core/selector/task.selector';
@@ -17,7 +17,7 @@ import { selectTaskItems0, selectTaskItems1, selectTaskItems10, selectTaskItems2
     ProgressBarModule,
     ReactiveFormsModule,
     FormsModule,
-    ButtonModule,
+    ButtonModule
   ],
   templateUrl: './list-to-do.component.html',
   styleUrl: './list-to-do.component.css',
@@ -26,13 +26,13 @@ import { selectTaskItems0, selectTaskItems1, selectTaskItems10, selectTaskItems2
 
 export class ListoToDoComponent implements OnInit{
   private readonly store = inject(Store<{task : TaskItemsState}>)
-  listTask : ItemList[] = []
+  listTask  : ItemList[] = []
 
-  editTitle: boolean = false;
+  editTitle : boolean = false;
   titleInput: string = ""
-  title : string = ""
+  title     : string = ""
   slot = input.required<number>()
-  item  : string = ""
+  item      : string = ""
   statusBarPorcent: number = 0;
 
   ngOnInit(): void {
@@ -63,6 +63,7 @@ export class ListoToDoComponent implements OnInit{
         }}
       ))  
     }
+    this.item = ""
   }
 
   saveNewTitle(){
@@ -84,87 +85,82 @@ export class ListoToDoComponent implements OnInit{
           }
         )
         break;
-        case 1:
-          this.store.select(selectTaskItems1).subscribe(
-            (val) => {
-              this.setData(val)
-            }
-          )
-          break;
-        case 2:
-          this.store.select(selectTaskItems2).subscribe(
-            (val) => {
-              this.setData(val)
-            }
-          )
-          break;
-        case 3:
-          this.store.select(selectTaskItems3).subscribe(
-            (val) => {
-              this.setData(val)
-            }
-          )
-          break;
-        case 4:
-          this.store.select(selectTaskItems4).subscribe(
-            (val) => {
-              this.setData(val)
-            }
-          )
-          break;
-        case 5:
-          this.store.select(selectTaskItems5).subscribe(
-            (val) => {
-              this.setData(val)
-            }
-          )
-          break;
-        case 6:
-          this.store.select(selectTaskItems6).subscribe(
-            (val) => {
-              this.setData(val)
-            }
-          )
-          break;
-        case 7:
-          this.store.select(selectTaskItems7).subscribe(
-            (val) => {
-              this.setData(val)
-            }
-          )
-          break;
-        case 8:
-          this.store.select(selectTaskItems8).subscribe(
-            (val) => {
-              this.setData(val)
-            }
-          )
-          break;
-        case 9:
-          this.store.select(selectTaskItems9).subscribe(
-            (val) => {
-              this.setData(val)
-            }
-          )
-          break;
-        case 10:
-          this.store.select(selectTaskItems10).subscribe(
-            (val) => {
-              this.setData(val)
-            }
-          )
-          break;
-      default:
+      case 1:
+        this.store.select(selectTaskItems1).subscribe(
+          (val) => {
+            this.setData(val)
+          }
+        )
+        break;
+      case 2:
+        this.store.select(selectTaskItems2).subscribe(
+          (val) => {
+            this.setData(val)
+          }
+        )
+        break;
+      case 3:
+        this.store.select(selectTaskItems3).subscribe(
+          (val) => {
+            this.setData(val)
+          }
+        )
+        break;
+      case 4:
+        this.store.select(selectTaskItems4).subscribe(
+          (val) => {
+            this.setData(val)
+          }
+        )
+        break;
+      case 5:
+        this.store.select(selectTaskItems5).subscribe(
+          (val) => {
+            this.setData(val)
+          }
+        )
+        break;
+      case 6:
+        this.store.select(selectTaskItems6).subscribe(
+          (val) => {
+            this.setData(val)
+          }
+        )
+        break;
+      case 7:
+        this.store.select(selectTaskItems7).subscribe(
+          (val) => {
+            this.setData(val)
+          }
+        )
+        break;
+      case 8:
+        this.store.select(selectTaskItems8).subscribe(
+          (val) => {
+            this.setData(val)
+          }
+        )
+        break;
+      case 9:
+        this.store.select(selectTaskItems9).subscribe(
+          (val) => {
+            this.setData(val)
+          }
+        )
+        break;
+      case 10:
+        this.store.select(selectTaskItems10).subscribe(
+          (val) => {
+            this.setData(val)
+          }
+        )
         break;
     }
   }
 
-  private setData(val: any):void{
+   setData(val: any):void{
     this.title = val.name || "";
     this.listTask = val.listOfTasks;
     this.updateStatusBar();
   }
 }
-
-
-

@@ -1,4 +1,4 @@
-<div class="flex card p-4 width-95">
+<div class="flex card p-3 ">
   <section>
     <div class="flex mb-3">
       @if(title === "" || editTitle){
@@ -20,7 +20,9 @@
         </h2>
       }
     </div>
-    <p-progressBar 
+
+
+      <p-progressBar 
       [showValue]="true"
       class="my-3"
       [value]="statusBarPorcent || 0" />
@@ -46,6 +48,5 @@
       } @empty {
       <li>There are no items.</li>
       }
-
   </section>
 </div>

@@ -2,14 +2,14 @@
   display: block;
 }
 
-.width-95{
-  width: 95%;
+.width-96{
+  width: 96%;
 }
 
 .card{
   border-width: 1px;
-  border-color: rgb(213, 186, 171);
-  background-color: rgb(230, 222, 217);
+  border-color: rgb(121, 114, 110);
+  background-color: rgb(159, 152, 147);
   border-radius: 16px;
   border-style: solid;
 }

@@ -44,3 +44,8 @@ export const selectIsOpenDeleteModal = createSelector(
 export const selectMemoryTask = createSelector(
     selectTaskState, (state) => state.memory
 )
+
+export const selectIsLoadingMemory = createSelector(
+    selectTaskState, (state) => state.taskIdToDelete
+)
+

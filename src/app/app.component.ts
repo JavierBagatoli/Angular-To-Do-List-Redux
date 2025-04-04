@@ -9,11 +9,13 @@ import { taskActions } from './core/action/task.action';
 import { DialogModule } from 'primeng/dialog';
 import { CommonModule } from '@angular/common';
 import { ItemList } from './core/interface/task.interface';
+import { SkeletonModule } from 'primeng/skeleton';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [
+    SkeletonModule,
     CommonModule,
     RouterOutlet, ButtonModule, ListoToDoComponent, DialogModule],
   templateUrl: './app.component.html',
@@ -34,6 +36,8 @@ export class AppComponent implements OnInit{
     listOfTasks: []
   };
 
+  loading = false;
+
   ngOnInit(): void {
     this.store.dispatch(taskActions.getTask());
 
@@ -49,10 +53,24 @@ export class AppComponent implements OnInit{
   }
 
   deleteTask(){
+    this.loading = true;
     this.store.dispatch(taskActions.deleteTask());
+    setTimeout(() => {
+      this.loading = false;
+      console.log(false)
+
+    }, 500)
   }
 
   closeDeleteModal(){
+    this.loading = true;
+    console.log(true)
     this.store.dispatch(taskActions.closeDeleteModal());
+        this.loading = true;
+    setTimeout(() => {
+      this.loading = false;
+      console.log(false)
+
+    }, 100)
   }
 }

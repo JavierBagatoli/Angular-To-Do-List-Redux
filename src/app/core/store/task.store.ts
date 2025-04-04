@@ -4,4 +4,5 @@ export interface TaskItemsState{
     memory: TaskData[]
     taskIdToDelete: SlotAndID | null;
     isOpenDeleteModal: boolean;
+    isLoadingMemory: boolean;
 }

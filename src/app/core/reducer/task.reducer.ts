@@ -7,6 +7,7 @@ export const initialState: TaskItemsState = {
   memory: [],
   taskIdToDelete: null,
   isOpenDeleteModal: false,
+  isLoadingMemory: false,
 };
 
 export const taskReducer = createReducer(
@@ -17,7 +18,6 @@ export const taskReducer = createReducer(
       const init : TaskData[] = [taskInit,taskInit,taskInit,taskInit,taskInit,taskInit,taskInit,taskInit,taskInit,taskInit,taskInit]
       localStorage.setItem("memory", JSON.stringify(init))
     }
-
     const memory = JSON.parse(localStorage.getItem("memory")!);
     
     if(!localStorage.getItem("date")){
@@ -26,8 +26,7 @@ export const taskReducer = createReducer(
 
     const lastDay = new Date(localStorage.getItem("date")!);
     let newMemory : TaskData[] = memory;
-    newMemory
-    console.log(lastDay.getDay(), "--", (new Date()).getDay(), ":", (lastDay.getDay() !== (new Date()).getDay()))
+
     if(lastDay.getDay() !== (new Date()).getDay()){
       newMemory = newMemory.map(
         spaceOfMemory => {
@@ -50,7 +49,6 @@ export const taskReducer = createReducer(
       )
     }
     
-    console.log(newMemory)
     return {
       ...state,
       memory : newMemory,
@@ -123,9 +121,8 @@ export const taskReducer = createReducer(
   on(taskActions.deleteTask, (state) => {
     const idItem :number = state.taskIdToDelete!.id;
     const slotItem :number = state.taskIdToDelete!.slot;
-    console.table(state.memory[idItem].listOfTasks)
-    let newArray = state.memory[idItem].listOfTasks.filter(task => task.id !== slotItem)
-    console.table(newArray)
+
+    let newArray = state.memory[slotItem].listOfTasks.filter(task => task.id !== idItem)
 
     let newMemory : TaskData[] = JSON.parse(JSON.stringify(state.memory));
     newMemory[slotItem].listOfTasks = newArray;
