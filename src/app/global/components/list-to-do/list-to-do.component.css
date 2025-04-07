@@ -13,3 +13,7 @@
   border-radius: 16px;
   border-style: solid;
 }
+
+p-card{
+  background-color: aqua !important;
+}

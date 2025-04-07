@@ -72,11 +72,13 @@ export class ListToDoComponent implements OnInit{
 
   saveNewTitle($title: string){
     this.editTitle = false;
-    this.title = $title;
-    this.store.dispatch(taskActions.updateNameList({
-      slot: this.slot(),
-      nameList: this.title}
-    ));  
+    if($title.length > 0){
+      this.title = $title;
+      this.store.dispatch(taskActions.updateNameList({
+        slot: this.slot(),
+        nameList: this.title}
+      ));
+    } 
   }
 
   private selectSlot(slot: number):void{
