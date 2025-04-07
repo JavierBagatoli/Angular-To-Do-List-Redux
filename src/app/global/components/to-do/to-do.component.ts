@@ -16,13 +16,13 @@ import { ItemList } from '../../../core/interface/task.interface';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ToDoComponent implements OnInit {
-  private readonly store = inject(Store<{task : TaskItemsState}>)
+  private readonly store = inject(Store<{task : TaskItemsState}>);
 
-  itemTask = input<ItemList>()
-  slot = input.required<number>()
+  itemTask = input<ItemList>();
+  slot = input.required<number>();
   showModalDelete : boolean = false;
   
-  checked: boolean = false
+  checked: boolean = false;
 
   ngOnInit(){
     this.checked = this.itemTask()?.status || false;
@@ -32,10 +32,8 @@ export class ToDoComponent implements OnInit {
     this.store.dispatch(taskActions.updateTask({slot: this.slot(), id: this.itemTask()?.id!}));
   }
 
-  openModalDelete(){
-    this.store.dispatch(taskActions.openDeleteModal({slot: this.slot() , id: this.itemTask()?.id!}));
-  }
-  switchDaily(){
-    this.store.dispatch(taskActions.switchDailyModeTask({slot: this.slot() , id: this.itemTask()?.id!}));
+  openModalEdit(){
+    console.log("aaa")
+    this.store.dispatch(taskActions.openModal({slot: this.slot() , id: this.itemTask()?.id!}));
   }
 }

@@ -6,7 +6,7 @@ import { ItemList, TaskData } from '../interface/task.interface';
 export const initialState: TaskItemsState = {
   memory: [],
   taskIdToDelete: null,
-  isOpenDeleteModal: false,
+  isOpenModal: false,
   isLoadingMemory: false,
 };
 
@@ -87,20 +87,41 @@ export const taskReducer = createReducer(
         } 
       }
       return task
-  })
+    })
 
-  let newMemory : TaskData[] = JSON.parse(JSON.stringify(state.memory));
-  newMemory[slot].listOfTasks = newArray
-  
-    return {
-    ...state,
-    memory: newMemory
-  }}
+    let newMemory : TaskData[] = JSON.parse(JSON.stringify(state.memory));
+    newMemory[slot].listOfTasks = newArray
+    
+      return {
+      ...state,
+      memory: newMemory
+    }}
   ),
 
-  on(taskActions.switchDailyModeTask, (state, {slot, id}) => {
-    let newArray = state.memory[slot].listOfTasks.map(task => {
-      if(task.id === id){
+  on(taskActions.changeNameTask, (state, {newName}) => {
+    let newArray = state.memory[state.taskIdToDelete!.slot].listOfTasks.map(task => {
+      if(task.id === state.taskIdToDelete!.id){
+        return {
+          ...task,
+          label: newName
+        } 
+      }
+      return task
+    })
+
+    let newMemory : TaskData[] = JSON.parse(JSON.stringify(state.memory));
+    newMemory[state.taskIdToDelete!.slot].listOfTasks = newArray
+    
+      return {
+      ...state,
+      memory: newMemory
+    }}
+  ),
+
+  on(taskActions.switchDailyModeTask, (state) => {
+    const slotPoss = state.taskIdToDelete!.slot;
+    let newArray = state.memory[slotPoss].listOfTasks.map(task => {
+      if(task.id === state.taskIdToDelete?.id){
         return {
           ...task,
           daily: !task.daily || false
@@ -110,7 +131,7 @@ export const taskReducer = createReducer(
   })
 
   let newMemory : TaskData[] = JSON.parse(JSON.stringify(state.memory));
-  newMemory[slot].listOfTasks = newArray
+  newMemory[slotPoss].listOfTasks = newArray
   
     return {
     ...state,
@@ -131,20 +152,20 @@ export const taskReducer = createReducer(
       ...state,
       memory: newMemory,
       taskIdToDelete: null,
-      isOpenDeleteModal: false,
     }}),
 
-  on(taskActions.openDeleteModal, (state, {slot, id}) => {
+  on(taskActions.openModal, (state, {slot, id}) => {
+
     return {
     ...state,
     taskIdToDelete: {slot: slot, id: id},
-    isOpenDeleteModal: true
+    isOpenModal: true
   }}),
 
-  on(taskActions.closeDeleteModal, (state) => {
+  on(taskActions.closeModal, (state) => {
     return {
     ...state,
     taskIdToDelete: null,
-    isOpenDeleteModal: false
+    isOpenModal: false
   }})
 );

@@ -37,8 +37,10 @@ export const selectTaskItems10 = createSelector(
     selectTaskState, (state) => state.memory[10] 
 )
 
-export const selectIsOpenDeleteModal = createSelector(
-    selectTaskState, (state) => state.isOpenDeleteModal
+export const selectIsOpenModal = createSelector(
+    selectTaskState, (state) => {
+        console.log("selector:", state.isOpenModal)
+        return state.isOpenModal}
 )
 
 export const selectMemoryTask = createSelector(
@@ -47,4 +49,19 @@ export const selectMemoryTask = createSelector(
 
 export const selectIsLoadingMemory = createSelector(
     selectTaskState, (state) => state.taskIdToDelete
+)
+
+export const selectTaskOnMemory = createSelector(
+    selectIsLoadingMemory,
+    selectTaskState,
+    (task,state) => {
+        if (task){
+            return state.memory[task?.slot || 0].listOfTasks[task?.id || 0]
+        }
+        return {
+            label: "",
+            status: false,
+            id:0
+        }
+    }
 )

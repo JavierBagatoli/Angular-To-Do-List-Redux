@@ -1,0 +1,56 @@
+{{showModal}}
+<p-dialog
+  [visible]="showModal"
+  [closable]="false"
+  [draggable]="false"
+  >
+  <div>
+  <p-divider/>
+  @if(editNameTask){
+    <input-text
+      [label]="'Editar Nombre Tarea'"
+      [buttonLabel]="'ok'"
+      (saveValue)="saveNameTask($event)"
+    />
+  }
+  @else {
+    <p
+      (click)="editNameTask = true"
+      class="flex flex-row justify-content-around">
+      <b>
+        {{selectedTask.label}}
+      </b>
+    </p>
+  }
+
+  <p-divider/>
+    <section class="flex flex-row justify-content-between">
+      <p>
+        Modo Diario:
+      </p>
+      
+      <p-button
+        severity="danger"
+        class="p-button-secondary flex flex-row"
+        (onClick)="switchDailyMode()"
+        [label]="selectedTask.status? 'Habilitado' : 'Desactivado'"
+      />           
+    </section>  
+  <p-divider/>
+    <div class="flex felx-row justify-content-end">
+      <div class="flex flex-row gap-2">
+        <p-button
+          class="flex flex-row"
+          (onClick)="closeModal()"
+          label="Cancel"
+        />
+        <p-button
+          class="flex flex-row danger"
+          (onClick)="deleteTask()"
+          label="Delete"
+          severity="danger"
+        />
+      </div>
+    </div>
+  </div>
+</p-dialog>
