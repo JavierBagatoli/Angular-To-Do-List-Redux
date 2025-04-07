@@ -1,8 +1,23 @@
 <main class="main">
-  <section class="header-black">
-    <h1 class="flex flex-row justify-content-around">
-      {{title}}
-    </h1>
+  <section class="header-black py-2">
+    @if(editTitle){
+      <div class="flex flex-row justify-content-center">
+        <input-text
+          class="mb-2 w-4"
+          [label]="'Agregar Titulo'"
+          [buttonLabel]="'ok'"
+          (saveValue)="saveNewTitle($event)"
+        />
+
+      </div>
+    }
+    @else {
+      <h1
+        (click)="editTitle = true"
+        class="flex flex-row justify-content-around">
+        {{title}}
+      </h1>
+    }
   </section>
 
   <div class="flex flex-row gap-3 ml-3">

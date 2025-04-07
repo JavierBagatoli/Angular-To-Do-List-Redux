@@ -10,6 +10,7 @@ import { DialogModule } from 'primeng/dialog';
 import { CommonModule } from '@angular/common';
 import { ItemList, SlotAndID } from './core/interface/task.interface';
 import { SkeletonModule } from 'primeng/skeleton';
+import { ListoToDoComponent } from "./global/components/input-text/input-text.component";
 
 @Component({
   selector: 'app-root',
@@ -17,7 +18,9 @@ import { SkeletonModule } from 'primeng/skeleton';
   imports: [
     SkeletonModule,
     CommonModule,
-    RouterOutlet, ButtonModule, ListToDoComponent, DialogModule],
+    RouterOutlet, ButtonModule, ListToDoComponent, DialogModule,
+    ListoToDoComponent
+],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
@@ -28,7 +31,9 @@ export class AppComponent implements OnInit{
 
   showModalDelete: boolean = false;
   memoryLength : number[] = [0,1,2,3,4,5,6,7,8,9,10];
+  
   title = 'ToDoList';
+  editTitle : boolean = false;
   list1 : ItemList[] = [];
   loading = false;
 
@@ -78,5 +83,13 @@ export class AppComponent implements OnInit{
       console.log(false)
 
     }, 1)
+  }
+
+  saveNewTitle($title: string){
+    if($title.length > 0){
+      this.title = $title
+      localStorage.setItem("titleToDoList", $title)
+    }
+    this.editTitle = false
   }
 }
