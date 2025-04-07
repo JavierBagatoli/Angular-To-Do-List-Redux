@@ -24,13 +24,15 @@
       [showValue]="true"
       [value]="statusBarPorcent || 0" />
 
-    <p-divider/>
-    <input-text
+    <div class="flex flex-column">
+      <p-divider/>
+      <input-text
       class="w-full"
       [label]="'Agregar Tarea'"
       [buttonLabel]="'ok'"
       (saveValue)="addTask($event)"
-    />
+      />
+    </div>
     @for (item of listTask; track item) {
       <app-to-do
         [slot]="this.slot()" 
