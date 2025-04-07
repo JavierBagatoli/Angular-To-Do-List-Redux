@@ -1,14 +1,14 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
-import { ListoToDoComponent } from "./global/components/list-to-do/list-to-do.component";
+import { ListToDoComponent } from "./global/components/list-to-do/list-to-do.component";
 import { Store } from '@ngrx/store';
 import { TaskItemsState } from './core/store/task.store';
-import { selectIsOpenDeleteModal, selectMemoryTask } from './core/selector/task.selector';
+import { selectIsLoadingMemory, selectIsOpenDeleteModal, selectMemoryTask } from './core/selector/task.selector';
 import { taskActions } from './core/action/task.action';
 import { DialogModule } from 'primeng/dialog';
 import { CommonModule } from '@angular/common';
-import { ItemList } from './core/interface/task.interface';
+import { ItemList, SlotAndID } from './core/interface/task.interface';
 import { SkeletonModule } from 'primeng/skeleton';
 
 @Component({
@@ -17,28 +17,24 @@ import { SkeletonModule } from 'primeng/skeleton';
   imports: [
     SkeletonModule,
     CommonModule,
-    RouterOutlet, ButtonModule, ListoToDoComponent, DialogModule],
+    RouterOutlet, ButtonModule, ListToDoComponent, DialogModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent implements OnInit{
   private readonly store = inject(Store<{task : TaskItemsState}>)
   
+  valuesToDelete : SlotAndID= {slot: -1, id: -1}
+
   showModalDelete: boolean = false;
+  memoryLength : number[] = [0,1,2,3,4,5,6,7,8,9,10];
   title = 'ToDoList';
   list1 : ItemList[] = [];
-
-  slot2 : {
-    name: string,
-    listOfTasks: ItemList[]
-  } = {
-    name: '',
-    listOfTasks: []
-  };
-
   loading = false;
 
   ngOnInit(): void {
+    this.title = localStorage.getItem("titleToDoList") || "To Do List"
+
     this.store.dispatch(taskActions.getTask());
 
     this.store.select(selectIsOpenDeleteModal).subscribe(
@@ -47,8 +43,18 @@ export class AppComponent implements OnInit{
       }
     );
 
+    this.store.select(selectIsLoadingMemory).subscribe(
+      val => this.valuesToDelete = val || {slot: -1, id: -1}
+    )
+
     this.store.select(selectMemoryTask).subscribe(
-      val => localStorage.setItem("memory", JSON.stringify(val))
+      val => {
+        /*this.memoryLength = [];
+        val.forEach((vector, index )=> {
+          if(vector.listOfTasks.length > 0){this.memoryLength.push(index)}
+        })
+        this.memoryLength.push(this.memoryLength.length)*/
+        localStorage.setItem("memory", JSON.stringify(val))}
     )
   }
 
@@ -59,7 +65,7 @@ export class AppComponent implements OnInit{
       this.loading = false;
       console.log(false)
 
-    }, 500)
+    }, 1)
   }
 
   closeDeleteModal(){
@@ -71,6 +77,6 @@ export class AppComponent implements OnInit{
       this.loading = false;
       console.log(false)
 
-    }, 100)
+    }, 1)
   }
 }

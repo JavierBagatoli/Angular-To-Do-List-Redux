@@ -48,4 +48,3 @@ export const selectMemoryTask = createSelector(
 export const selectIsLoadingMemory = createSelector(
     selectTaskState, (state) => state.taskIdToDelete
 )
-

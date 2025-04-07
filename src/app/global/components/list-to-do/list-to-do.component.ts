@@ -8,23 +8,29 @@ import { Store } from '@ngrx/store';
 import { taskActions } from '../../../core/action/task.action';
 import { ItemList } from '../../../core/interface/task.interface';
 import { selectTaskItems0, selectTaskItems1, selectTaskItems10, selectTaskItems2, selectTaskItems3, selectTaskItems4, selectTaskItems5, selectTaskItems6, selectTaskItems7, selectTaskItems8, selectTaskItems9 } from '../../../core/selector/task.selector';
+import { ListoToDoComponent } from "../input-text/input-text.component";
+import { CardModule } from 'primeng/card';
+import { DividerModule } from 'primeng/divider';
 
 @Component({
-  selector: 'app-listo-to-do',
+  selector: 'app-list-to-do',
   standalone: true,
   imports: [
     ToDoComponent,
     ProgressBarModule,
     ReactiveFormsModule,
     FormsModule,
-    ButtonModule
-  ],
+    ButtonModule,
+    ListoToDoComponent,
+    CardModule,
+    DividerModule
+],
   templateUrl: './list-to-do.component.html',
   styleUrl: './list-to-do.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
-export class ListoToDoComponent implements OnInit{
+export class ListToDoComponent implements OnInit{
   private readonly store = inject(Store<{task : TaskItemsState}>)
   listTask  : ItemList[] = []
 
@@ -32,7 +38,6 @@ export class ListoToDoComponent implements OnInit{
   titleInput: string = ""
   title     : string = ""
   slot = input.required<number>()
-  item      : string = ""
   statusBarPorcent: number = 0;
 
   ngOnInit(): void {
@@ -52,23 +57,22 @@ export class ListoToDoComponent implements OnInit{
     this.statusBarPorcent = Math.round( (temporalValue / this.listTask.length)*100) || 0
   }
 
-  addTask():void{
-    if(this.item?.length > 0){
+  addTask($nameItem :string):void{
+    if($nameItem.length > 0){
       this.store.dispatch(taskActions.addTask({
         slot: this.slot(),
         task: {
           id: this.listTask.length || 0,
-          label: this.item!,
+          label: $nameItem!,
           status: false,
         }}
       ))  
     }
-    this.item = ""
   }
 
-  saveNewTitle(){
+  saveNewTitle($title: string){
     this.editTitle = false;
-    this.title = this.titleInput;
+    this.title = $title;
     this.store.dispatch(taskActions.updateNameList({
       slot: this.slot(),
       nameList: this.title}
