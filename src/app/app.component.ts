@@ -43,7 +43,10 @@ export class AppComponent implements OnInit{
   title = 'ToDoList';
   editTitle : boolean = false;
   list1 : ItemList[] = [];
-  loading = false;
+  loadingTaskId : number = -1;
+  loadingModal: boolean = false;
+
+  slotID : number = -1
 
   ngOnInit(): void {
     this.title = localStorage.getItem("titleToDoList") || "To Do List"
@@ -52,29 +55,39 @@ export class AppComponent implements OnInit{
 
     this.store.select(selectIsLoadingMemory).subscribe(
       val => {
-        this.deleteTask()
+        this.slotID = val?.slot!
+        this.activateLoadingTask()
         this.valuesToDelete = val || {slot: -1, id: -1}}
     )
 
     this.store.select(selectMemoryTask).subscribe(
       val => {
-        this.deleteTask()
+        this.activateLoadingModal()
         /*this.memoryLength = [];
         val.forEach((vector, index )=> {
           if(vector.listOfTasks.length > 0){this.memoryLength.push(index)}
         })
         this.memoryLength.push(this.memoryLength.length)*/
+        this.activateLoadingTask()
         localStorage.setItem("memory", JSON.stringify(val))}
     )
+
     this.store.select(selectIsOpenModal).subscribe(
-      () => this.deleteTask()
+      () => this.activateLoadingModal()
     )
   }
 
-  deleteTask(){
-    this.loading = true;
+  activateLoadingTask(){
+    this.loadingTaskId = this.slotID;
     setTimeout(() => {
-      this.loading = false;
+      this.loadingTaskId = -1;
+    }, 1)
+  }
+
+  activateLoadingModal(){
+    this.loadingModal = true;
+    setTimeout(() => {
+      this.loadingModal = false;
       console.log(false)
     }, 1)
   }

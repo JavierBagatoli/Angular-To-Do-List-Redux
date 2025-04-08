@@ -21,23 +21,20 @@
 
   <div class="flex flex-row gap-3 ml-3">
       @for (item of memoryLength; track item) {
-        @if(!loading){
+        @if(loadingTaskId !== item){
           <app-list-to-do
             [slot]="item"
           />  
         }
         @else{
-          <div 
-            class="flex flex-column gap-3 fake-card">
-            <p-skeleton/> 
-            <p-skeleton/>
-            <p-skeleton/>
-          </div>
+          <app-list-to-do
+          [slot]="item"
+        />  
         }
       }   
   </div>
-  @if(!loading){
-    <app-modal-edit-task class="w33"/>
+  @if(!loadingModal){
+    <app-modal-edit-task/>
   }
 </main>
 <router-outlet />

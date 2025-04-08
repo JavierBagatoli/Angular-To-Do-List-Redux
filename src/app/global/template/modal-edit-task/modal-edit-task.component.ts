@@ -31,6 +31,7 @@ export class ToDoComponent implements OnInit {
   private readonly store = inject(Store<{task : TaskItemsState}>);
   
   showModal = false;
+  loading: boolean = false;
 
   selectedTask : ItemList = {
     label: "aa",
@@ -58,6 +59,7 @@ export class ToDoComponent implements OnInit {
   saveNameTask($name : string):void{
     if($name.length > 0){
       this.store.dispatch(taskActions.changeNameTask({newName: $name}));
+      this.activateLoading();
     }
     this.editNameTask = false;
   };
@@ -69,9 +71,17 @@ export class ToDoComponent implements OnInit {
 
   switchDailyMode(){
     this.store.dispatch(taskActions.switchDailyModeTask());
+    this.activateLoading();
   }
 
   closeModal(): void{
     this.store.dispatch(taskActions.closeModal())
   };
+
+  activateLoading(): void{
+    this.loading = true
+    setTimeout(() => {
+      this.loading = false
+    },1)
+  }
 }
