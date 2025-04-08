@@ -10,8 +10,16 @@
 }
 
 .header-black{
+    width: 100%;
     padding: 0.05rem;
     margin-bottom: 1rem;
     background-color: black;
     color: white;
+}
+
+.wrapper {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+    grid-gap: 10px;
 }
