@@ -6,11 +6,10 @@ import { Store } from '@ngrx/store';
 import { TaskItemsState } from '../../../core/store/task.store';
 import { ButtonModule } from 'primeng/button';
 import { ItemList } from '../../../core/interface/task.interface';
-import { selectIsLoadingMemory, selectIsOpenModal, selectTaskOnMemory } from '../../../core/selector/task.selector';
+import { selectIsOpenModal, selectTaskOnMemory } from '../../../core/selector/task.selector';
 import { DialogModule } from 'primeng/dialog';
 import { DividerModule } from 'primeng/divider';
 import { ListoToDoComponent } from "../../components/input-text/input-text.component";
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-modal-edit-task',
@@ -44,21 +43,22 @@ export class ToDoComponent implements OnInit {
   ngOnInit(): void {
     this.store.select(selectTaskOnMemory).subscribe(
       val => {
-        console.log(val)
+        console.log("console", val)
         this.selectedTask = val;
       }
     );
 
     this.store.select(selectIsOpenModal).subscribe(
       val => {
-        console.log(val, "<<<<")
         this.showModal = val;
       }
     )
   };
 
   saveNameTask($name : string):void{
-    this.store.dispatch(taskActions.changeNameTask({newName: $name}));
+    if($name.length > 0){
+      this.store.dispatch(taskActions.changeNameTask({newName: $name}));
+    }
     this.editNameTask = false;
   };
 

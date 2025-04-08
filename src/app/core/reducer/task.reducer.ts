@@ -134,9 +134,9 @@ export const taskReducer = createReducer(
   newMemory[slotPoss].listOfTasks = newArray
   
     return {
-    ...state,
-    memory: newMemory
-  }}
+      ...state,
+      memory: newMemory
+    }}
   ),
 
   on(taskActions.deleteTask, (state) => {
@@ -152,7 +152,9 @@ export const taskReducer = createReducer(
       ...state,
       memory: newMemory,
       taskIdToDelete: null,
-    }}),
+    }
+  }),
+
 
   on(taskActions.openModal, (state, {slot, id}) => {
 

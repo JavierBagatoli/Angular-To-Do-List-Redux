@@ -13,6 +13,7 @@ import { SkeletonModule } from 'primeng/skeleton';
 import { ListoToDoComponent } from "./global/components/input-text/input-text.component";
 import { DividerModule } from 'primeng/divider';
 import { ToDoComponent } from "./global/template/modal-edit-task/modal-edit-task.component";
+import { BrowserModule } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-root',
@@ -20,7 +21,10 @@ import { ToDoComponent } from "./global/template/modal-edit-task/modal-edit-task
   imports: [
     SkeletonModule,
     CommonModule,
-    RouterOutlet, ButtonModule, ListToDoComponent, DialogModule,
+    RouterOutlet,
+    ButtonModule,
+    ListToDoComponent,
+    DialogModule,
     ListoToDoComponent,
     DividerModule,
     ToDoComponent
