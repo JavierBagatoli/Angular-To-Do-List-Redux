@@ -17,3 +17,14 @@
 p-card{
   background-color: aqua !important;
 }
+
+.icon {
+  font-size: 3rem;
+  color: rgb(221, 214, 206);
+  transition: 0.3s;
+}
+
+.icon:hover {
+  font-size: 5rem;
+  color: rgba(173, 172, 170, 0.697);
+}

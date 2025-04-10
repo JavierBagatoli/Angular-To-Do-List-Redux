@@ -38,7 +38,7 @@ export class AppComponent implements OnInit{
   valuesToDelete : SlotAndID= {slot: -1, id: -1}
 
   showModalDelete: boolean = false;
-  memoryLength : number[] = [0,1,2,3,4,5,6,7,8,9,10];
+  memoryLength : number[] = [];
   
   title = 'ToDoList';
   editTitle : boolean = false;
@@ -63,12 +63,13 @@ export class AppComponent implements OnInit{
     this.store.select(selectMemoryTask).subscribe(
       val => {
         this.activateLoadingModal()
-        /*this.memoryLength = [];
-        val.forEach((vector, index )=> {
-          if(vector.listOfTasks.length > 0){this.memoryLength.push(index)}
-        })
-        this.memoryLength.push(this.memoryLength.length)*/
         this.activateLoadingTask()
+        val.forEach((val, index) => {
+          if(val.listOfTasks.length){
+            this.memoryLength.push(index)
+          }
+        })
+        this.memoryLength.push(this.memoryLength.length+1)
         localStorage.setItem("memory", JSON.stringify(val))}
     )
 

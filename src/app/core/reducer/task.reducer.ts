@@ -24,7 +24,7 @@ export const taskReducer = createReducer(
       localStorage.setItem("date", JSON.stringify(new Date()))
     }
 
-    const lastDay = new Date(localStorage.getItem("date")!);
+    const lastDay = new Date(localStorage.getItem("date")!.substring(0,8));
     let newMemory : TaskData[] = memory;
 
     if(lastDay.getDay() !== (new Date()).getDay()){
@@ -47,6 +47,7 @@ export const taskReducer = createReducer(
           }
         }
       )
+      localStorage.setItem("date", JSON.stringify(new Date()))
     }
     
     return {

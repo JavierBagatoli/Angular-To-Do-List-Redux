@@ -39,6 +39,7 @@ export class ListToDoComponent implements OnInit{
   title     : string = ""
   slot = input.required<number>()
   statusBarPorcent: number = 0;
+  isShowList : boolean = false
 
   ngOnInit(): void {
     this.selectSlot(this.slot());
@@ -68,6 +69,10 @@ export class ListToDoComponent implements OnInit{
         }}
       ))  
     }
+  }
+
+  showList(){
+    this.isShowList = true
   }
 
   saveNewTitle($title: string){
