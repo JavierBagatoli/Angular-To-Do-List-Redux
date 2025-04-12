@@ -4,18 +4,18 @@
     <ng-template pTemplate="header">
       <section class="flex m-3 pt-3">
         <div class="margin-top-custom mr-1">
-          @if(isFavouriteList){
-            <i
-              (click)="switchFavouriteList()"
-              class="pi pi-star-fill" 
-              style="font-size: 1.5rem"></i>
-          }
-          @else{
-            <i
-              (click)="switchFavouriteList()"
-              class="pi pi-star"
-              style="font-size: 1.5rem"></i>
-          }
+            @if(isFavouriteList){
+              <i
+                (click)="switchFavouriteList()"
+                class="pi pi-star-fill" 
+                style="font-size: 1.5rem"></i>
+            }
+            @else{
+              <i
+                (click)="switchFavouriteList()"
+                class="pi pi-star"
+                style="font-size: 1.5rem"></i>
+            }
         </div>
         @if(title === "" || editTitle){
           <input-text
@@ -48,7 +48,7 @@
         (saveValue)="addTask($event)"
         />
       </div>
-      @for (item of listTask; track item) {
+      @for (item of listTask; track item.id) {
         <app-to-do
           [slot]="this.slot()" 
           style="display: block;"

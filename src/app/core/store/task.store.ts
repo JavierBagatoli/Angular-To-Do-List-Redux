@@ -5,4 +5,5 @@ export interface TaskItemsState{
     taskIdToDelete: SlotAndID | null;
     isOpenModal: boolean;
     isLoadingMemory: boolean;
+    slotListFavourite: number;
 }

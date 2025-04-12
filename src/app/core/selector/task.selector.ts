@@ -43,7 +43,16 @@ export const selectIsOpenModal = createSelector(
 )
 
 export const selectMemoryTask = createSelector(
-    selectTaskState, (state) => state.memory
+    selectTaskState, (state) => {
+        return {
+            memory: state.memory,
+            slotListFavourite: state.slotListFavourite,
+        }
+    }
+)
+
+export const selectslotListFavourite = createSelector(
+    selectTaskState, (state) => state.slotListFavourite
 )
 
 export const selectIsLoadingMemory = createSelector(

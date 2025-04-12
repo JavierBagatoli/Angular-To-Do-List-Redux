@@ -8,23 +8,18 @@ export const initialState: TaskItemsState = {
   taskIdToDelete: null,
   isOpenModal: false,
   isLoadingMemory: false,
+  slotListFavourite: -1,
 };
 
 export const taskReducer = createReducer(
   initialState,
   on(taskActions.getTask, (state) => {
-    if(!localStorage.getItem("memory")){
-      const taskInit : TaskData = {name: "", listOfTasks:[]}
-      const init : TaskData[] = [taskInit,taskInit,taskInit,taskInit,taskInit,taskInit,taskInit,taskInit,taskInit,taskInit,taskInit]
-      localStorage.setItem("memory", JSON.stringify(init))
-    }
+    prepareMemory()
     const memory = JSON.parse(localStorage.getItem("memory")!);
     
-    if(!localStorage.getItem("date")){
-      localStorage.setItem("date", JSON.stringify(new Date()))
-    }
-
+    prepareDate()
     const lastDay = new Date(localStorage.getItem("date")!.substring(0,8));
+    
     let newMemory : TaskData[] = memory;
 
     if(lastDay.getDay() !== (new Date()).getDay()){
@@ -49,10 +44,12 @@ export const taskReducer = createReducer(
       )
       localStorage.setItem("date", JSON.stringify(new Date()))
     }
-    
+
+    const slotListFavourite : number = JSON.parse(localStorage.getItem("slotListFavourite")!) || -1
     return {
       ...state,
       memory : newMemory,
+      slotListFavourite: slotListFavourite
     }}),
 
   on(taskActions.addTask, (state, {slot , task}) => {
@@ -170,17 +167,22 @@ export const taskReducer = createReducer(
   }}),
 
   on(taskActions.markListAsFavourite, (state, {slot}) => {
-    const memory : TaskData[] = JSON.parse(JSON.stringify(state.memory));
-
-    let newMemory = memory.map((list, index) => {
-      return {
-        ...list,
-        isFavourite: (index === slot && !list.isFavourite)
-      }
-    })
-
     return {
-    ...state,
-    memory: newMemory,
-  }})
+      ...state,
+      slotListFavourite: state.slotListFavourite === slot? -1 : slot}
+  })
+
 );
+
+const prepareMemory = () =>{
+  if(!localStorage.getItem("memory")){
+    const taskInit : TaskData = {name: "", listOfTasks:[]}
+    const init : TaskData[] = [taskInit,taskInit,taskInit,taskInit,taskInit,taskInit,taskInit,taskInit,taskInit,taskInit,taskInit]
+    localStorage.setItem("memory", JSON.stringify(init))
+  }
+}
+const prepareDate = () =>{
+  if(!localStorage.getItem("date")){
+    localStorage.setItem("date", JSON.stringify(new Date()))
+  }
+}

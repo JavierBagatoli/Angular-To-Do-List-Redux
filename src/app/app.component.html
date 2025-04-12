@@ -21,16 +21,9 @@
 
   <div class="wrapper gap-3 mx-3 mb-3">
       @for (item of memoryLength; track item) {
-        @if(loadingTaskId !== item){
           <app-list-to-do
             [slot]="item"
           />  
-        }
-        @else{
-          <app-list-to-do
-          [slot]="item"
-        />  
-        }
       }   
   </div>
   @if(!loadingModal){

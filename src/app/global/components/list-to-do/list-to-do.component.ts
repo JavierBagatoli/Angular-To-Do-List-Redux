@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, input, OnInit, signal } from '@angular/core';
+import { ApplicationRef, ChangeDetectionStrategy, ChangeDetectorRef, Component, ComponentRef, inject, input, OnDestroy, OnInit, signal } from '@angular/core';
 import { ToDoComponent } from "../to-do/to-do.component";
 import { ProgressBarModule } from 'primeng/progressbar';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -7,10 +7,11 @@ import { TaskItemsState } from '../../../core/store/task.store';
 import { Store } from '@ngrx/store';
 import { taskActions } from '../../../core/action/task.action';
 import { ItemList } from '../../../core/interface/task.interface';
-import { selectTaskItems0, selectTaskItems1, selectTaskItems10, selectTaskItems2, selectTaskItems3, selectTaskItems4, selectTaskItems5, selectTaskItems6, selectTaskItems7, selectTaskItems8, selectTaskItems9 } from '../../../core/selector/task.selector';
+import { selectslotListFavourite, selectTaskItems0, selectTaskItems1, selectTaskItems10, selectTaskItems2, selectTaskItems3, selectTaskItems4, selectTaskItems5, selectTaskItems6, selectTaskItems7, selectTaskItems8, selectTaskItems9 } from '../../../core/selector/task.selector';
 import { ListoToDoComponent } from "../input-text/input-text.component";
 import { CardModule } from 'primeng/card';
 import { DividerModule } from 'primeng/divider';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-list-to-do',
@@ -30,7 +31,7 @@ import { DividerModule } from 'primeng/divider';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
-export class ListToDoComponent implements OnInit{
+export class ListToDoComponent implements OnInit, OnDestroy{
   private readonly store = inject(Store<{task : TaskItemsState}>)
   listTask  : ItemList[] = []
 
@@ -42,7 +43,25 @@ export class ListToDoComponent implements OnInit{
   isShowList: boolean = false;
   isFavouriteList: boolean = false;
 
+  subs$ : Subscription = new Subscription()
+
+  constructor(private cdr: ChangeDetectorRef){}
+
+  ngOnDestroy(): void {
+    this.subs$.unsubscribe();
+  }
+
   ngOnInit(): void {
+    this.subs$.add(
+      this.store.select(selectslotListFavourite).subscribe(
+        val => {
+          console.log(val, ">>>>")
+          this.isFavouriteList = this.slot() === val
+          this.cdr.detectChanges();
+        }
+      )
+    );
+
     this.selectSlot(this.slot());
   }
 
@@ -87,8 +106,7 @@ export class ListToDoComponent implements OnInit{
     } 
   }
 
-  private selectSlot(slot: number):void{
-    let selector = null; 
+  private selectSlot(slot: number):void{ 
     switch (slot) {
       case 0:
         this.store.select(selectTaskItems0).subscribe(
@@ -175,6 +193,7 @@ export class ListToDoComponent implements OnInit{
     this.isFavouriteList = val.isFavourite || false;
     this.listTask = val.listOfTasks;
     this.updateStatusBar();
+    this.cdr.detectChanges();
   }
 
   switchFavouriteList(){
