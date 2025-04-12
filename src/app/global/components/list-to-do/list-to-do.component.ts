@@ -39,11 +39,12 @@ export class ListToDoComponent implements OnInit, OnDestroy{
   titleInput: string = ""
   title     : string = ""
   slot = input.required<number>()
+  isFavouriteList = input.required<number>()
   statusBarPorcent: number = 0;
   isShowList: boolean = false;
-  isFavouriteList: boolean = false;
 
   subs$ : Subscription = new Subscription()
+
 
   constructor(private cdr: ChangeDetectorRef){}
 
@@ -52,16 +53,6 @@ export class ListToDoComponent implements OnInit, OnDestroy{
   }
 
   ngOnInit(): void {
-    this.subs$.add(
-      this.store.select(selectslotListFavourite).subscribe(
-        val => {
-          console.log(val, ">>>>")
-          this.isFavouriteList = this.slot() === val
-          this.cdr.detectChanges();
-        }
-      )
-    );
-
     this.selectSlot(this.slot());
   }
 
@@ -190,7 +181,6 @@ export class ListToDoComponent implements OnInit, OnDestroy{
 
    setData(val: any):void{
     this.title = val.name || "";
-    this.isFavouriteList = val.isFavourite || false;
     this.listTask = val.listOfTasks;
     this.updateStatusBar();
     this.cdr.detectChanges();

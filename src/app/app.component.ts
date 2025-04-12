@@ -45,6 +45,7 @@ export class AppComponent implements OnInit{
   loadingModal: boolean = false;
 
   slotID : number = -1
+  slotFavourite : number = -1
 
   constructor(private cdr: ChangeDetectorRef) {}
   
@@ -53,13 +54,6 @@ export class AppComponent implements OnInit{
     this.title = localStorage.getItem("titleToDoList") || "To Do List"
 
     this.store.dispatch(taskActions.getTask());
-
-    this.store.select(selectslotListFavourite).subscribe(
-      val => {
-        this.activateLoadingTask()
-        this.cdr.detectChanges()
-      }
-    )
 
     this.store.select(selectIsLoadingMemory).subscribe(
       val => {
@@ -72,7 +66,7 @@ export class AppComponent implements OnInit{
 
     this.store.select(selectMemoryTask).subscribe(
       val => {
- 
+        this.slotFavourite = val.slotListFavourite;
         this.activateLoadingModal();
         this.activateLoadingTask();
         this.memoryLength = []

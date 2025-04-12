@@ -4,7 +4,7 @@
     <ng-template pTemplate="header">
       <section class="flex m-3 pt-3">
         <div class="margin-top-custom mr-1">
-            @if(isFavouriteList){
+            @if(isFavouriteList() === slot()){
               <i
                 (click)="switchFavouriteList()"
                 class="pi pi-star-fill" 

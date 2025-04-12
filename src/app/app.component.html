@@ -23,6 +23,7 @@
       @for (item of memoryLength; track item) {
           <app-list-to-do
             [slot]="item"
+            [isFavouriteList]="slotFavourite"
           />  
       }   
   </div>
