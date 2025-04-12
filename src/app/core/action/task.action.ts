@@ -4,6 +4,7 @@ import { ItemList, SlotAndID } from '../interface/task.interface';
 export const taskActions = createActionGroup({
     source: 'Task',
     events: {
+        'Restart':emptyProps(),
         'Get Task': emptyProps(),
         'Add Task': props<{slot: number, task: ItemList}>(),
         'Update Task': props<SlotAndID>(),

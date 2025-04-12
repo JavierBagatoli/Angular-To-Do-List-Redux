@@ -1,34 +1,62 @@
 <main class="main">
-  <section class="header-black py-2">
-    @if(editTitle){
-      <div class="flex flex-row justify-content-center">
-        <input-text
-          class="mb-2 w-4"
-          [label]="'Agregar Titulo'"
-          [buttonLabel]="'ok'"
-          (saveValue)="saveNewTitle($event)"
-        />
-      </div>
-    }
-    @else {
-      <h1
-        (click)="editTitle = true"
-        class="flex flex-row justify-content-around">
-        {{title}}
-      </h1>
-    }
-  </section>
+  <div class="flex flex-row justify-content-center">
+    <section class="flex flex-row header-black py-2" style="justify-content: center !important;">
+      @if(editTitle){
+        <div class="flex flex-row justify-content-center">
+          <input-text
+            class="mb-2 w-4"
+            [label]="'Agregar Titulo'"
+            [buttonLabel]="'ok'"
+            (saveValue)="saveNewTitle($event)"
+          />
+        </div>
+      }
+      @else {
+        <h1
+          (click)="editTitle = true"
+          class="flex flex-row justify-content-around">
+          {{title}}
+        </h1>
+      }
+  
+      <i 
+        (click)="download()"
+        class="pi pi-arrow-circle-down" style="margin-left: 1rem; margin-top:1.5rem; font-size: 1.8rem">
+      </i>
+      
+      <input
+        style="display: none;"
+        id="upload-photo"
+        type="file"
+        accept=".txt"
+        (change)="cargarArchivo($event)" />
+      <label for="upload-photo">
+        <i   
+          class="pi pi-arrow-circle-up"
+          style="margin-left: 1rem; margin-top:1.5rem; font-size: 1.8rem">
+        </i>
+      </label>
+    </section>
+  </div>
+
+
+  
 
   <div class="wrapper gap-3 mx-3 mb-3">
-      @for (item of memoryLength; track item) {
-          <app-list-to-do
-            [slot]="item"
-            [isFavouriteList]="slotFavourite"
-          />  
-      }   
+    @for (item of memoryLength; track item) {
+      <app-list-to-do
+        [slot]="item"
+        [isFavouriteList]="slotFavourite"
+      />  
+    }   
   </div>
   @if(!loadingModal){
     <app-modal-edit-task/>
   }
+
+  <app-modal-info
+    [showModal]="modalInfoIsOpen"
+    (closeModalEmit)="modalInfoIsOpen = ''"/>
 </main>
+
 <router-outlet />

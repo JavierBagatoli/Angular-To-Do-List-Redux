@@ -1,4 +1,4 @@
-import { ApplicationRef, ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
+import { ApplicationRef, ChangeDetectorRef, Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { ListToDoComponent } from "./global/components/list-to-do/list-to-do.component";
@@ -8,11 +8,14 @@ import { selectIsLoadingMemory, selectIsOpenModal, selectMemoryTask, selectslotL
 import { taskActions } from './core/action/task.action';
 import { DialogModule } from 'primeng/dialog';
 import { CommonModule } from '@angular/common';
-import { ItemList, SlotAndID } from './core/interface/task.interface';
+import { SlotAndID } from './core/interface/task.interface';
 import { SkeletonModule } from 'primeng/skeleton';
 import { ListoToDoComponent } from "./global/components/input-text/input-text.component";
 import { DividerModule } from 'primeng/divider';
 import { ToDoComponent } from "./global/template/modal-edit-task/modal-edit-task.component";
+import { Subscription } from 'rxjs';
+import { ModalInfoComponent } from "./global/template/modal-info/modal-info.component";
+import { downloadData, uploadData } from './core/service/download.service';
 
 @Component({
   selector: 'app-root',
@@ -26,12 +29,13 @@ import { ToDoComponent } from "./global/template/modal-edit-task/modal-edit-task
     DialogModule,
     ListoToDoComponent,
     DividerModule,
-    ToDoComponent
+    ToDoComponent,
+    ModalInfoComponent
 ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
-export class AppComponent implements OnInit{
+export class AppComponent implements OnInit, OnDestroy{
   private readonly store = inject(Store<{task : TaskItemsState}>)
   
   valuesToDelete : SlotAndID= {slot: -1, id: -1}
@@ -47,51 +51,71 @@ export class AppComponent implements OnInit{
   slotID : number = -1
   slotFavourite : number = -1
 
+  modalInfoIsOpen : string = "";
+
   constructor(private cdr: ChangeDetectorRef) {}
+
+  subs$ = new Subscription()
   
+  ngOnDestroy(): void {
+    this.subs$.unsubscribe()
+  }
   
   ngOnInit(): void {
     this.title = localStorage.getItem("titleToDoList") || "To Do List"
 
     this.store.dispatch(taskActions.getTask());
 
-    this.store.select(selectIsLoadingMemory).subscribe(
-      val => {
-        this.slotID = val?.slot!
-        this.activateLoadingTask()
-        this.valuesToDelete = val || {slot: -1, id: -1}
-        this.cdr.detectChanges()
+    this.subs$.add(
+      this.store.select(selectIsLoadingMemory).subscribe(
+        val => {
+          this.slotID = val?.slot!
+          this.activateLoadingTask()
+          this.valuesToDelete = val || {slot: -1, id: -1}
+          this.cdr.detectChanges()
+        }
+      )
+    )
+    
+    this.subs$.add(
+  this.store.select(selectMemoryTask).subscribe(
+    val => {
+      this.slotFavourite = val.slotListFavourite;
+      this.activateLoadingModal();
+      this.activateLoadingTask();
+
+      this.loadMemoryList(val)
+
+      this.memoryLength.push(this.memoryLength.length+1);
+      localStorage.setItem("memory", JSON.stringify(val.memory));
+      localStorage.setItem("slotListFavourite", JSON.stringify(val.slotListFavourite));
+
+      this.cdr.detectChanges()
+    }
+  )
+    )
+    
+    this.subs$.add(
+      this.store.select(selectIsOpenModal).subscribe(
+        () => this.activateLoadingModal()
+      )
+    )
+    
+    this.cdr.detectChanges()
+  }
+
+  loadMemoryList(val: {memory: any[], slotListFavourite: number}){
+    this.memoryLength = []
+
+    if(val.slotListFavourite !== -1){
+      this.memoryLength.push(val.slotListFavourite)
+    };
+
+    val.memory.forEach((item, index) => {
+      if(item.listOfTasks.length && index !== val.slotListFavourite){
+        this.memoryLength.push(index);
       }
-    )
-
-    this.store.select(selectMemoryTask).subscribe(
-      val => {
-        this.slotFavourite = val.slotListFavourite;
-        this.activateLoadingModal();
-        this.activateLoadingTask();
-        this.memoryLength = []
-
-        if(val.slotListFavourite !== -1){
-          this.memoryLength.push(val.slotListFavourite)
-        };
-
-        val.memory.forEach((item, index) => {
-          if(item.listOfTasks.length && index !== val.slotListFavourite){
-            this.memoryLength.push(index);
-          }
-        });
-
-        this.memoryLength.push(this.memoryLength.length+1);
-        localStorage.setItem("memory", JSON.stringify(val.memory));
-        localStorage.setItem("slotListFavourite", JSON.stringify(val.slotListFavourite));
-
-        this.cdr.detectChanges()
-      }
-    )
-
-    this.store.select(selectIsOpenModal).subscribe(
-      () => this.activateLoadingModal()
-    )
+    });
   }
 
   activateLoadingTask(){
@@ -108,18 +132,6 @@ export class AppComponent implements OnInit{
     }, 1)
   }
 
-  /*closeDeleteModal(){
-    this.loading = true;
-    console.log(true)
-    this.store.dispatch(taskActions.closeModal());
-        this.loading = true;
-    setTimeout(() => {
-      this.loading = false;
-      console.log(false)
-
-    }, 1)
-  }*/
-
   saveNewTitle($title: string){
     if($title.length > 0){
       this.title = $title
@@ -130,5 +142,13 @@ export class AppComponent implements OnInit{
 
   switchDaily(){
     this.store.dispatch(taskActions.switchDailyModeTask());
+  }
+
+  download(){
+    downloadData()
+  }
+
+  cargarArchivo(event: Event) {
+    uploadData(event);
   }
 }

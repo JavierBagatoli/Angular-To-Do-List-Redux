@@ -13,6 +13,10 @@ export const initialState: TaskItemsState = {
 
 export const taskReducer = createReducer(
   initialState,
+  on(taskActions.restart, () => {
+    return initialState
+  }),
+
   on(taskActions.getTask, (state) => {
     prepareMemory()
     const memory = JSON.parse(localStorage.getItem("memory")!);
