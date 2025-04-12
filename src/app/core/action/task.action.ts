@@ -7,6 +7,7 @@ export const taskActions = createActionGroup({
         'Get Task': emptyProps(),
         'Add Task': props<{slot: number, task: ItemList}>(),
         'Update Task': props<SlotAndID>(),
+        'Mark List as Favourite': props<{slot: number}>(),
         'Change Name Task': props<{newName: string}>(),
         'Update Name List': props<{slot: number, nameList: string}>(),
         'Switch Daily Mode Task': emptyProps(),

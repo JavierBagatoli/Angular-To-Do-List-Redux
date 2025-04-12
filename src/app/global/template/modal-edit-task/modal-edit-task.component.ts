@@ -44,7 +44,6 @@ export class ToDoComponent implements OnInit {
   ngOnInit(): void {
     this.store.select(selectTaskOnMemory).subscribe(
       val => {
-        console.log("console", val)
         this.selectedTask = val;
       }
     );

@@ -28,3 +28,7 @@ p-card{
   font-size: 5rem;
   color: rgba(173, 172, 170, 0.697);
 }
+
+.margin-top-custom{
+  margin-top: 1.2rem;
+}

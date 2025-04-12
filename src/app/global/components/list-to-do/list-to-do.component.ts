@@ -39,7 +39,8 @@ export class ListToDoComponent implements OnInit{
   title     : string = ""
   slot = input.required<number>()
   statusBarPorcent: number = 0;
-  isShowList : boolean = false
+  isShowList: boolean = false;
+  isFavouriteList: boolean = false;
 
   ngOnInit(): void {
     this.selectSlot(this.slot());
@@ -171,7 +172,14 @@ export class ListToDoComponent implements OnInit{
 
    setData(val: any):void{
     this.title = val.name || "";
+    this.isFavouriteList = val.isFavourite || false;
     this.listTask = val.listOfTasks;
     this.updateStatusBar();
+  }
+
+  switchFavouriteList(){
+    this.store.dispatch(
+      taskActions.markListAsFavourite({slot: this.slot()})
+    );
   }
 }

@@ -1,5 +1,7 @@
 export interface TaskData{
+    id?: number,
     name: string,
+    isFavourite?: boolean,
     listOfTasks: ItemList[],
 }
 

@@ -39,7 +39,6 @@ export const selectTaskItems10 = createSelector(
 
 export const selectIsOpenModal = createSelector(
     selectTaskState, (state) => {
-        console.log("selector:", state.isOpenModal)
         return state.isOpenModal}
 )
 

@@ -89,7 +89,6 @@ export class AppComponent implements OnInit{
     this.loadingModal = true;
     setTimeout(() => {
       this.loadingModal = false;
-      console.log(false)
     }, 1)
   }
 

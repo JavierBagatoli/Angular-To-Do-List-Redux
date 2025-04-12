@@ -56,12 +56,9 @@ export const taskReducer = createReducer(
     }}),
 
   on(taskActions.addTask, (state, {slot , task}) => {
-    console.log(slot, "<<<< SLOT")
     let newArray : ItemList[] = [...state.memory[slot].listOfTasks, task];
-    console.log(newArray, "Este es el nuevo vector de posicion")
 
     let newMemory : TaskData[] = JSON.parse(JSON.stringify(state.memory));
-    console.log(newMemory, "Este esta es la nueva memoria")
 
     newMemory[slot].listOfTasks = newArray
 
@@ -170,5 +167,20 @@ export const taskReducer = createReducer(
     ...state,
     taskIdToDelete: null,
     isOpenModal: false
+  }}),
+
+  on(taskActions.markListAsFavourite, (state, {slot}) => {
+    const memory : TaskData[] = JSON.parse(JSON.stringify(state.memory));
+
+    let newMemory = memory.map((list, index) => {
+      return {
+        ...list,
+        isFavourite: (index === slot && !list.isFavourite)
+      }
+    })
+
+    return {
+    ...state,
+    memory: newMemory,
   }})
 );
