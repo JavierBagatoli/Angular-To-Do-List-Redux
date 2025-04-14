@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, input, OnInit, output, signal } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, input, OnInit, output, signal } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { FloatLabelModule } from 'primeng/floatlabel';
@@ -25,8 +25,11 @@ export class ListoToDoComponent{
   label = input<string>("")
   saveValue = output<string>()
 
+  constructor(private cdr: ChangeDetectorRef){}
+
   save(){
-    this.saveValue.emit(this.value)
-    this.value = ""
+    this.saveValue.emit(this.value);
+    this.value = "";
+    this.cdr.detectChanges();
   }
 }

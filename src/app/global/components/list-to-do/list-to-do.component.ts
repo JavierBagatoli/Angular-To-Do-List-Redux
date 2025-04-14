@@ -33,15 +33,16 @@ import { Subscription } from 'rxjs';
 
 export class ListToDoComponent implements OnInit, OnDestroy{
   private readonly store = inject(Store<{task : TaskItemsState}>)
-  listTask  : ItemList[] = []
+  listTask  : ItemList[] = [];
 
   editTitle : boolean = false;
-  titleInput: string = ""
-  title     : string = ""
-  slot = input.required<number>()
-  isFavouriteList = input.required<number>()
+  titleInput: string = "";
+  title     : string = "";
+  slot = input.required<number>();
+  isFavouriteList = input.required<number>();
   statusBarPorcent: number = 0;
   isShowList: boolean = false;
+  showAll : boolean = false;
 
   subs$ : Subscription = new Subscription()
 
