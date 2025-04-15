@@ -2,3 +2,18 @@
   display: block;
   margin-top: 1rem;
 }
+
+@media (max-width: 400px) {
+  .mode {
+    display: flex;
+    flex-direction: column !important;
+  }
+
+  .p-inputtext {
+    width: 100%;
+  }
+
+  p-button::ng-deep .p-button {
+    width: 100%;
+  }
+}

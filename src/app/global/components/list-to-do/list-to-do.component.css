@@ -32,3 +32,12 @@ p-card{
 .margin-top-custom{
   margin-top: 1.2rem;
 }
+
+@media (max-width: 400px) {
+  .mode{
+    flex-direction: column;
+  }
+  p-button::ng-deep .p-button {
+    width: 100%;
+  }
+}

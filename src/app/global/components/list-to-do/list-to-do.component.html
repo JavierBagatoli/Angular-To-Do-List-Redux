@@ -2,24 +2,24 @@
  @if(listTask.length > 0 || isShowList){
   <p-card>
     <ng-template pTemplate="header">
-      <section class="flex m-3 pt-3">
+      <section class="flex ml-3 pt-3">
         <div class="margin-top-custom mr-1">
             @if(isFavouriteList() === slot()){
               <i
                 (click)="switchFavouriteList()"
-                class="pi pi-star-fill" 
+                class="pi pi-star-fill mt-1 mr-1" 
                 style="font-size: 1.5rem"></i>
             }
             @else{
               <i
                 (click)="switchFavouriteList()"
-                class="pi pi-star"
+                class="pi pi-star mt-1 mr-1"
                 style="font-size: 1.5rem"></i>
             }
         </div>
         @if(title === "" || editTitle){
           <input-text
-            class="w-full -mb-5"
+            class="-mb-5"
             [label]="'Agregar Titulo'"
             [buttonLabel]="'ok'"
             (saveValue)="saveNewTitle($event)"
@@ -41,7 +41,7 @@
           [value]="statusBarPorcent || 0"/>   
       <p-divider/>  
 
-      <div class="flex flex-row justify-content-end -mt-3">
+      <div class="flex justify-content-end -mt-3 mode">
         
         <input-text
           class="w-full"
@@ -52,6 +52,7 @@
         <p-button 
           class="mt-3"
           icon="pi pi-trash"
+          severity="danger"
           (onClick)="openDeleteAllList()"/>
 
       </div>

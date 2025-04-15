@@ -1,4 +1,5 @@
-<div class="flex flex-row justify-content-center w-full gap-3">
+<div
+  class="flex justify-content-start w-full gap-3 mode">
   <p-floatLabel>
       <input pInputText id="username" [(ngModel)]="value"/>
       <label for="username">{{label()}}</label>
@@ -6,6 +7,7 @@
 
   @if(buttonLabel() === "ok"){
     <p-button 
+      class="flex flex-row"
       icon="pi pi-check"
       (onClick)="save()"/>
   }

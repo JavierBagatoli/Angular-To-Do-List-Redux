@@ -29,9 +29,15 @@ body{
   width: 25% !important;
 }
 
+@media (max-width: 1000px) {
+  .p-dialog {
+    width: 70% !important;
+  }
+}
+
 @media (max-width: 600px) {
   .p-dialog {
-    width: 100% !important;
+    width: 90% !important;
   }
 }
 
