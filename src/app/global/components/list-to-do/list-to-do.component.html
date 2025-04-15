@@ -38,15 +38,22 @@
       <section class="pt-0">
         <p-progressBar 
           [showValue]="true"
-          [value]="statusBarPorcent || 0"/>          
-      <div class="flex flex-column">
-        <p-divider/>
+          [value]="statusBarPorcent || 0"/>   
+      <p-divider/>  
+
+      <div class="flex flex-row justify-content-end -mt-3">
+        
         <input-text
-        class="w-full"
-        [label]="'Agregar Tarea'"
-        [buttonLabel]="'ok'"
-        (saveValue)="addTask($event)"
+          class="w-full"
+          [label]="'Agregar Tarea'"
+          [buttonLabel]="'ok'"
+          (saveValue)="addTask($event)"
         />
+        <p-button 
+          class="mt-3"
+          icon="pi pi-trash"
+          (onClick)="openDeleteAllList()"/>
+
       </div>
       @for (item of listTask; track item.id; let idx = $index) {
         @if(idx < 5 || showAll){

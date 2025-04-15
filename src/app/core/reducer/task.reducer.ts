@@ -9,6 +9,7 @@ export const initialState: TaskItemsState = {
   isOpenModal: false,
   isLoadingMemory: false,
   slotListFavourite: -1,
+  slotToDelete: -1,
 };
 
 export const taskReducer = createReducer(
@@ -26,6 +27,7 @@ export const taskReducer = createReducer(
     
     let newMemory : TaskData[] = memory;
 
+    console.log(lastDay.getDay(), (new Date()).getDay())
     if(lastDay.getDay() !== (new Date()).getDay()){
       newMemory = newMemory.map(
         spaceOfMemory => {
@@ -61,8 +63,9 @@ export const taskReducer = createReducer(
 
     let newMemory : TaskData[] = JSON.parse(JSON.stringify(state.memory));
 
-    newMemory[slot].listOfTasks = newArray
-
+    newMemory[slot].listOfTasks = newArray;
+    newMemory[slot].id = Math.random() * 100000
+    console.log(newMemory[slot].id)
     return {
       ...state,
       memory: [...newMemory]
@@ -174,7 +177,36 @@ export const taskReducer = createReducer(
     return {
       ...state,
       slotListFavourite: state.slotListFavourite === slot? -1 : slot}
-  })
+  }),
+
+  
+  on(taskActions.openDeleteList, (state, {slot}) => {
+    return {
+      ...state,
+      slotToDelete: slot}
+    }),
+    
+  on(taskActions.cleanDeleteListID, (state) => {
+    return {
+      ...state,
+      slotToDelete: -1}
+  }),
+
+  on(taskActions.deleteList, (state) => {
+    let newArray = state.memory.filter((_vector, index) => index !== state.slotToDelete)
+
+    if(
+      state.slotListFavourite === JSON.parse(localStorage.getItem("slotListFavourite")!)
+    ){
+      localStorage.setItem("slotListFavourite","")
+    }
+
+    return {
+      ...state,
+      memory: newArray,
+      slotToDelete: -1
+    }
+  }),
 
 );
 

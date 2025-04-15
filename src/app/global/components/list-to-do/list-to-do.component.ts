@@ -7,7 +7,7 @@ import { TaskItemsState } from '../../../core/store/task.store';
 import { Store } from '@ngrx/store';
 import { taskActions } from '../../../core/action/task.action';
 import { ItemList } from '../../../core/interface/task.interface';
-import { selectslotListFavourite, selectTaskItems0, selectTaskItems1, selectTaskItems10, selectTaskItems2, selectTaskItems3, selectTaskItems4, selectTaskItems5, selectTaskItems6, selectTaskItems7, selectTaskItems8, selectTaskItems9 } from '../../../core/selector/task.selector';
+import { selectTaskItems0, selectTaskItems1, selectTaskItems10, selectTaskItems2, selectTaskItems3, selectTaskItems4, selectTaskItems5, selectTaskItems6, selectTaskItems7, selectTaskItems8, selectTaskItems9 } from '../../../core/selector/task.selector';
 import { ListoToDoComponent } from "../input-text/input-text.component";
 import { CardModule } from 'primeng/card';
 import { DividerModule } from 'primeng/divider';
@@ -191,5 +191,9 @@ export class ListToDoComponent implements OnInit, OnDestroy{
     this.store.dispatch(
       taskActions.markListAsFavourite({slot: this.slot()})
     );
+  }
+
+  openDeleteAllList(){
+    this.store.dispatch(taskActions.openDeleteList({slot: this.slot()}));
   }
 }

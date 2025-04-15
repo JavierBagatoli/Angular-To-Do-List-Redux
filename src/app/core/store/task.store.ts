@@ -6,4 +6,5 @@ export interface TaskItemsState{
     isOpenModal: boolean;
     isLoadingMemory: boolean;
     slotListFavourite: number;
+    slotToDelete: number;
 }

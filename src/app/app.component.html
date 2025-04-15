@@ -53,11 +53,14 @@
   </div>
   @if(!loadingModal){
     <app-modal-edit-task/>
+    <app-modal-info
+      [showModal]="modalInfoIsOpen"
+      (closeModalEmit)="modalInfoIsOpen = ''"/>
+
+    <app-modal-delete-list/>
   }
 
-  <app-modal-info
-    [showModal]="modalInfoIsOpen"
-    (closeModalEmit)="modalInfoIsOpen = ''"/>
+  
 </main>
 
 <router-outlet />

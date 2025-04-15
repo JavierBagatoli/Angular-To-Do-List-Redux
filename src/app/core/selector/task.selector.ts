@@ -42,6 +42,10 @@ export const selectIsOpenModal = createSelector(
         return state.isOpenModal}
 )
 
+export const selectIsOpenModalDeleteList = createSelector(
+    selectTaskState, (state) => state.slotToDelete !== -1
+)
+
 export const selectMemoryTask = createSelector(
     selectTaskState, (state) => {
         return {

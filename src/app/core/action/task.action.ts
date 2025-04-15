@@ -15,5 +15,9 @@ export const taskActions = createActionGroup({
         'Delete Task': emptyProps(),
         'Open Modal': props<SlotAndID>(),
         'Close Modal': emptyProps(),
-    },
+
+        'Open Delete List': props<{slot: number}>(),
+        'Clean Delete List ID' : emptyProps(), 
+        'Delete List': emptyProps(),
+    }
 })

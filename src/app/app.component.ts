@@ -4,7 +4,7 @@ import { ButtonModule } from 'primeng/button';
 import { ListToDoComponent } from "./global/components/list-to-do/list-to-do.component";
 import { Store } from '@ngrx/store';
 import { TaskItemsState } from './core/store/task.store';
-import { selectIsLoadingMemory, selectIsOpenModal, selectMemoryTask, selectslotListFavourite } from './core/selector/task.selector';
+import { selectIsLoadingMemory, selectIsOpenModal, selectIsOpenModalDeleteList, selectMemoryTask, selectslotListFavourite } from './core/selector/task.selector';
 import { taskActions } from './core/action/task.action';
 import { DialogModule } from 'primeng/dialog';
 import { CommonModule } from '@angular/common';
@@ -16,6 +16,7 @@ import { ToDoComponent } from "./global/template/modal-edit-task/modal-edit-task
 import { Subscription } from 'rxjs';
 import { ModalInfoComponent } from "./global/template/modal-info/modal-info.component";
 import { downloadData, uploadData } from './core/service/download.service';
+import { ModalDeleteListComponent} from "./global/template/modal-delete-list/modal-delete-list.component";
 
 @Component({
   selector: 'app-root',
@@ -30,7 +31,8 @@ import { downloadData, uploadData } from './core/service/download.service';
     ListoToDoComponent,
     DividerModule,
     ToDoComponent,
-    ModalInfoComponent
+    ModalInfoComponent,
+    ModalDeleteListComponent
 ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
@@ -74,6 +76,12 @@ export class AppComponent implements OnInit, OnDestroy{
           this.valuesToDelete = val || {slot: -1, id: -1}
           this.cdr.detectChanges()
         }
+      )
+    )
+
+    this.subs$.add(
+      this.store.select(selectIsOpenModalDeleteList).subscribe(
+        () => this.activateLoadingModal()
       )
     )
     

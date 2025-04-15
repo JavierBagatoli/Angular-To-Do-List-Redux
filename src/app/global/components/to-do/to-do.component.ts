@@ -33,7 +33,6 @@ export class ToDoComponent implements OnInit {
   }
 
   openModalEdit(){
-    console.log("aaa")
     this.store.dispatch(taskActions.openModal({slot: this.slot() , id: this.itemTask()?.id!}));
   }
 }
