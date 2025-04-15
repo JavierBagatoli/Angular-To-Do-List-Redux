@@ -23,11 +23,10 @@ export const taskReducer = createReducer(
     const memory = JSON.parse(localStorage.getItem("memory")!);
     
     prepareDate()
-    const lastDay = new Date(localStorage.getItem("date")!.substring(0,8));
+    const lastDay = new Date(Number(localStorage.getItem("date")!));
     
     let newMemory : TaskData[] = memory;
 
-    console.log(lastDay.getDay(), (new Date()).getDay())
     if(lastDay.getDay() !== (new Date()).getDay()){
       newMemory = newMemory.map(
         spaceOfMemory => {
@@ -48,7 +47,7 @@ export const taskReducer = createReducer(
           }
         }
       )
-      localStorage.setItem("date", JSON.stringify(new Date()))
+      localStorage.setItem("date", JSON.stringify(new Date().getTime()))
     }
 
     const slotListFavourite : number = JSON.parse(localStorage.getItem("slotListFavourite")!) || -1
@@ -219,6 +218,6 @@ const prepareMemory = () =>{
 }
 const prepareDate = () =>{
   if(!localStorage.getItem("date")){
-    localStorage.setItem("date", JSON.stringify(new Date()))
+    localStorage.setItem("date", JSON.stringify((new Date()).getTime()))
   }
 }

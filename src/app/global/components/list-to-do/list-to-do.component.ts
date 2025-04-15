@@ -181,8 +181,8 @@ export class ListToDoComponent implements OnInit, OnDestroy{
   }
 
    setData(val: any):void{
-    this.title = val.name || "";
-    this.listTask = val.listOfTasks;
+    this.title = val?.name || "";
+    this.listTask = val?.listOfTasks || [];
     this.updateStatusBar();
     this.cdr.detectChanges();
   }
