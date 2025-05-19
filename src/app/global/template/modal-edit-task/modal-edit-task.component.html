@@ -4,16 +4,17 @@
   [draggable]="false"
   >
     <ng-template pTemplate="header">
-      <div class="w-full">
+      <div class="flex flex-row w-full">
         @if(editNameTask){
           <input-text
-            class="justify-content-center"
+            class="justify-content-center w-full"
             [label]="'Editar Nombre Tarea'"
             [buttonLabel]="'ok'"
             (saveValue)="saveNameTask($event)"
           />
         }
         @else {
+        <div class="flex flex-row w-full">
           <p
             (click)="editNameTask = true"
             class="flex flex-row justify-content-around">
@@ -21,7 +22,13 @@
               {{selectedTask.label}}
             </b>
           </p>
-        }
+          <i
+            (click)="editNameTask = true"
+            class="ml-2 mt-3 pi pi-pencil interctive"
+            style="color: rgb(141, 52, 52)">
+          </i>
+        </div>
+      }
       </div> 
     </ng-template>
     <ng-template pTemplate="content">
@@ -48,7 +55,7 @@
           <p-button
             class="flex flex-row danger"
             (onClick)="deleteTask()"
-            label="Delete"
+            label="Borrar"
             severity="danger"
           />
         </div>

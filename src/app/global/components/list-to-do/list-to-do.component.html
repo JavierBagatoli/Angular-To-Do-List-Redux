@@ -19,17 +19,22 @@
         </div>
         @if(title === "" || editTitle){
           <input-text
-            class="-mb-5"
+            class="-mb-5 w-full"
             [label]="'Agregar Titulo'"
             [buttonLabel]="'ok'"
             (saveValue)="saveNewTitle($event)"
           />
         }@else{
-          <h2 
-            (click)="editTitle = true"
-            class="-mb-5">
-            {{title}}
-          </h2>
+          <div class="flex flex-row gap-2">
+            <h2>
+              {{title}}
+            </h2>
+            <i
+              (click)="editTitle = true"
+              class="mt-4 pi pi-pencil interctive"
+              style="color: rgb(141, 52, 52)">
+            </i>
+          </div>
         }
       </section>
 
@@ -41,8 +46,7 @@
           [value]="statusBarPorcent || 0"/>   
       <p-divider/>  
 
-      <div class="flex justify-content-end -mt-3 mode">
-        
+      <div class="flex gap-2 mode">
         <input-text
           class="w-full"
           [label]="'Agregar Tarea'"
@@ -50,11 +54,11 @@
           (saveValue)="addTask($event)"
         />
         <p-button 
-          class="mt-3"
+          class="align-content-end"
           icon="pi pi-trash"
           severity="danger"
-          (onClick)="openDeleteAllList()"/>
-
+          (onClick)="openDeleteAllList()"
+        />
       </div>
       @for (item of listTask; track item.id; let idx = $index) {
         @if(idx < 5 || showAll){
