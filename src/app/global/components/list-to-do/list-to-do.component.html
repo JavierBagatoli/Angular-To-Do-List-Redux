@@ -2,7 +2,8 @@
  @if(listTask.length > 0 || isShowList){
   <p-card>
     <ng-template pTemplate="header">
-      <section class="flex px-4 pt-3 pb-0 mb-0">
+      <section
+         class="flex px-4 pt-3 pb-0 -mb-4">
         <div class="margin-top-custom">
           @if(title !== "" && !editTitle){
             @if(isFavouriteList() === slot()){

@@ -7,9 +7,10 @@
 
   @if(buttonLabel() === "ok"){
     <p-button 
+      severity="primary"
       class="flex flex-row"
       icon="pi pi-check"
-      (onClick)="save()"/>
+      (onClick)="save()"/> 
   }
   @else{
     <p-button

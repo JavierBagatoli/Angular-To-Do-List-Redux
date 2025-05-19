@@ -6,18 +6,6 @@
   width: 96%;
 }
 
-.card{
-  border-width: 1px;
-  border-color: rgb(121, 114, 110);
-  background-color: rgb(159, 152, 147);
-  border-radius: 16px;
-  border-style: solid;
-}
-
-p-card{
-  background-color: aqua !important;
-}
-
 .icon {
   font-size: 3rem;
   color: rgb(221, 214, 206);
@@ -41,3 +29,4 @@ p-card{
     width: 100%;
   }
 }
+

@@ -44,3 +44,56 @@ body{
 .interctive{
   cursor: pointer;
 }
+
+button{
+  background-color: #492A33;
+  border-color: #330C18;
+  &.p-button-primary{
+    background-color: #492A33;
+    border-color: #330C18;
+  }
+  &.p-button-danger{
+    background-color: #330C18;
+    border-color: #330C18;
+  }
+  &.p-button-success{
+    background-color: #492A33;
+    border-color: #492A33;
+  }
+}
+
+button:focus{
+  box-shadow: none;
+}
+
+h1,h2,p {
+  color: #b7b7b7;
+}
+
+.p-progressbar .p-progressbar-value {
+ background-color: #9c4d6a;
+}
+
+.p-checkbox .p-checkbox-box.p-highlight {
+  border-color: #9c4d6a;
+  background: #9c4d6a;
+}
+
+.p-card {
+  background-color: #242323 !important;
+  color: #4b5563;
+  box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2),
+    0 1px 1px 0 rgba(0, 0, 0, 0.14),
+    0 1px 3px 0 rgba(0, 0, 0, 0.12);
+  border-radius: 6px;
+}
+
+.p-dialog-header {
+  background-color: #242323;
+}
+.p-dialog-content {
+  background-color: #242323;
+}
+.p-dialog-footer {
+  background-color: #242323;
+}
